@@ -1,0 +1,50 @@
+/* Custom styles for StreamForge documentation */
+
+:root {
+  --md-primary-fg-color: #2196f3;
+  --md-accent-fg-color: #ff9800;
+}
+
+/* Make top-level navigation items bigger and bolder */
+.md-nav--primary > .md-nav__list > .md-nav__item > .md-nav__link {
+  font-size: 0.95rem;
+  font-weight: 700;
+  padding-top: 0.8rem;
+  padding-bottom: 0.8rem;
+}
+
+/* Make section headers (like "User Guide", "Getting Started") more prominent */
+.md-nav--primary .md-nav__item--section > .md-nav__link {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--md-primary-fg-color);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-top: 1rem;
+}
+
+/* Add spacing between top-level items */
+.md-nav--primary > .md-nav__list > .md-nav__item {
+  margin-bottom: 0.5rem;
+}
+
+/* Code block improvements */
+.highlight pre {
+  border-radius: 0.2rem;
+}
+
+/* Admonition customization */
+.md-typeset .admonition {
+  border-left-width: 4px;
+}
+
+/* Table improvements */
+.md-typeset table:not([class]) {
+  font-size: 0.85rem;
+}
+
+/* Better spacing for code */
+.md-typeset code {
+  padding: 0.1rem 0.3rem;
+}
+

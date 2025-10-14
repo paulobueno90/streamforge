@@ -1,0 +1,160 @@
+site_name: StreamForge
+site_description: Real-time cryptocurrency and financial data ingestion system
+site_author: Paulo Bueno
+site_url: https://paulobueno90.github.io/streamforge/
+
+repo_name: paulobueno90/streamforge
+repo_url: https://github.com/paulobueno90/streamforge
+edit_uri: edit/main/docs/
+
+copyright: Copyright &copy; 2025 Paulo Bueno
+
+theme:
+  name: material
+  palette:
+    # Light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: blue
+      accent: orange
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    # Dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: blue
+      accent: orange
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  
+  font:
+    text: Roboto
+    code: Roboto Mono
+  
+  icon:
+    repo: fontawesome/brands/github
+    logo: material/flash
+  
+  features:
+    - navigation.instant
+    - navigation.tracking
+    #- navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - navigation.footer
+    - search.suggest
+    - search.highlight
+    - search.share
+    - content.code.copy
+    - content.code.annotate
+    - content.tabs.link
+
+plugins:
+  - search:
+      lang: en
+      separator: '[\s\-,:!=\[\]()"/]+|(?!\b)(?=[A-Z][a-z])|\.(?!\d)|&[lg]t;'
+  - mkdocstrings:
+      handlers:
+        python:
+          paths: [.]
+          options:
+            docstring_style: google
+            show_source: true
+            show_root_heading: true
+            show_root_full_path: false
+            show_symbol_type_heading: true
+            show_symbol_type_toc: true
+            members_order: source
+            heading_level: 2
+            show_signature_annotations: true
+            separate_signature: true
+            merge_init_into_class: true
+
+markdown_extensions:
+  # Python Markdown
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+      toc_depth: 3
+  
+  # Python Markdown Extensions
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+
+nav:
+  - Home: index.md
+  - Getting Started:
+      - Installation: getting-started/installation.md
+      - Quick Start: getting-started/quick-start.md
+      - Core Concepts: getting-started/core-concepts.md
+  - User Guide:
+      - Emitters: user-guide/emitters.md
+      - Transformers: user-guide/transformers.md
+      - Aggregation: user-guide/aggregation.md
+      - Backfilling: user-guide/backfilling.md
+      - Multi-Exchange: user-guide/multi-exchange.md
+  - Exchanges:
+      - Binance: exchanges/binance.md
+      - Kraken: exchanges/kraken.md
+      - OKX: exchanges/okx.md
+  - Examples:
+      - Overview: examples/index.md
+      - Basic Streaming: examples/basic-streaming.md
+      - Database & Streaming: examples/data_emitters.md
+      - Data Transformation: examples/data-transformation.md
+      - Advanced Patterns: examples/advanced-patterns.md
+  - API Reference:
+      - Overview: api-reference/index.md
+      - Runners: api-reference/runners.md
+      - Emitters: api-reference/emitters.md
+      - Data Models: api-reference/data-models.md
+      - Backfilling: api-reference/backfilling.md
+  - Contributing: contributing.md
+  - Changelog: changelog.md
+
+extra:
+  version:
+    provider: mike
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/paulobueno90/streamforge
+    - icon: fontawesome/brands/python
+      link: https://pypi.org/project/streamforge/
+
+extra_css:
+  - stylesheets/extra.css
+

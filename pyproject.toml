@@ -1,0 +1,183 @@
+[build-system]
+requires = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "streamforge"
+version = "0.1.0"
+description = "Real-time cryptocurrency and financial data ingestion system"
+readme = "README.md"
+requires-python = ">=3.8"
+license = {text = "MIT"}
+authors = [
+    {name = "Paulo Bueno", email = "paulohmbueno@gmail.com"},
+]
+maintainers = [
+    {name = "Paulo Bueno", email = "paulohmbueno@gmail.com"},
+]
+keywords = [
+    "cryptocurrency",
+    "crypto",
+    "stocks",
+    "options",
+    "trading",
+    "data",
+    "ingestion",
+    "websocket",
+    "binance",
+    "kraken",
+    "okx",
+    "streamforge",
+    "real-time",
+    "market-data",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Financial and Insurance Industry",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Office/Business :: Financial",
+    "Topic :: Office/Business :: Financial :: Investment",
+    "Typing :: Typed",
+]
+
+dependencies = [
+    "aiohttp>=3.8.0",
+    "websockets>=10.0",
+    "sqlalchemy>=1.4.0",
+    "pandas>=1.3.0",
+    "pydantic>=1.8.0",
+    "orjson>=3.6.0",
+    "aiokafka>=0.8.0",
+    "asyncpg>=0.27.0",
+    "aiolimiter>=1.1.0",
+    "python-dateutil>=2.8.0",
+    "numpy>=1.20.0",
+    "requests>=2.25.0",
+    "ciso8601>=2.2.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=6.0",
+    "pytest-asyncio>=0.18.0",
+    "pytest-cov>=3.0.0",
+    "black>=21.0.0",
+    "flake8>=3.8.0",
+    "mypy>=0.800",
+    "isort>=5.0.0",
+]
+test = [
+    "pytest>=6.0",
+    "pytest-asyncio>=0.18.0",
+    "pytest-cov>=3.0.0",
+]
+docs = [
+    "mkdocs>=1.5.0",
+    "mkdocs-material>=9.5.0",
+    "mkdocstrings[python]>=0.24.0",
+    "pymdown-extensions>=10.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/paulobueno90/streamforge"
+Documentation = "https://paulobueno90.github.io/streamforge/"
+Repository = "https://github.com/paulobueno90/streamforge"
+"Bug Tracker" = "https://github.com/paulobueno90/streamforge/issues"
+Changelog = "https://github.com/paulobueno90/streamforge/blob/main/CHANGELOG.md"
+
+# [project.scripts]
+# streamforge = "streamforge.cli:main"  # No CLI yet
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["streamforge*"]
+exclude = ["tests*", "docs*", "examples*", "venv*", "site*"]
+
+[tool.setuptools.package-data]
+streamforge = ["*.py", "py.typed"]
+
+[tool.black]
+line-length = 100
+target-version = ['py38', 'py39', 'py310', 'py311']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | build
+  | dist
+)/
+'''
+
+[tool.isort]
+profile = "black"
+line_length = 100
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+use_parentheses = true
+ensure_newline_before_comments = true
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra -q --strict-markers"
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+asyncio_mode = "auto"
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false
+disallow_incomplete_defs = false
+check_untyped_defs = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+strict_equality = true
+
+[[tool.mypy.overrides]]
+module = [
+    "pandas.*",
+    "numpy.*",
+    "websockets.*",
+    "aiohttp.*",
+]
+ignore_missing_imports = true
+
+[tool.coverage.run]
+source = ["streamforge"]
+omit = [
+    "*/tests/*",
+    "*/test_*.py",
+    "*/__pycache__/*",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+    "@abstractmethod",
+]
