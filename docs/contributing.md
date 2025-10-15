@@ -47,94 +47,6 @@ Ready to code? Here's how:
 4. Add tests
 5. Submit a pull request
 
----
-
-## Development Setup
-
-### 1. Fork and Clone
-
-```bash
-# Fork on GitHub, then clone your fork
-git clone https://github.com/YOUR_USERNAME/streamforge.git
-cd streamforge
-```
-
-### 2. Create Virtual Environment
-
-```bash
-python -m venv venv
-source venv/bin/activate  # or venv\Scripts\activate on Windows
-```
-
-### 3. Install in Development Mode
-
-```bash
-pip install -e ".[dev]"
-```
-
-This installs StreamForge with development dependencies:
-
-- pytest - Testing framework
-- black - Code formatting
-- flake8 - Linting
-- mypy - Type checking
-- isort - Import sorting
-
-### 4. Create a Branch
-
-```bash
-git checkout -b feature/my-new-feature
-# or
-git checkout -b fix/bug-description
-```
-
----
-
-## Development Workflow
-
-### 1. Make Changes
-
-Edit the code in your feature branch.
-
-### 2. Format Code
-
-```bash
-# Format with black
-black streamforge/
-
-# Sort imports
-isort streamforge/
-```
-
-### 3. Lint
-
-```bash
-# Run flake8
-flake8 streamforge/
-
-# Run mypy
-mypy streamforge/
-```
-
-### 4. Test
-
-```bash
-# Run tests
-pytest
-
-# With coverage
-pytest --cov=streamforge
-```
-
-### 5. Commit
-
-```bash
-git add .
-git commit -m "feat: add new feature"
-
-# Or
-git commit -m "fix: resolve bug in X"
-```
 
 **Commit Message Format:**
 
@@ -146,13 +58,6 @@ git commit -m "fix: resolve bug in X"
 - `style:` - Formatting changes
 - `chore:` - Maintenance tasks
 
-### 6. Push and Create PR
-
-```bash
-git push origin feature/my-new-feature
-```
-
-Then create a Pull Request on GitHub.
 
 ---
 
@@ -225,48 +130,6 @@ def function(arg1: str, arg2: int) -> bool:
 
 ---
 
-## Testing
-
-### Writing Tests
-
-Create tests in the `tests/` directory:
-
-```python
-import pytest
-from streamforge import BinanceRunner, DataInput
-
-def test_runner_creation():
-    """Test runner can be created"""
-    stream = DataInput(type="kline", symbols=["BTCUSDT"], timeframe="1m")
-    runner = BinanceRunner(stream_input=stream)
-    assert runner is not None
-
-@pytest.mark.asyncio
-async def test_runner_stream():
-    """Test runner streaming"""
-    stream = DataInput(type="kline", symbols=["BTCUSDT"], timeframe="1m")
-    runner = BinanceRunner(stream_input=stream)
-    # Test implementation...
-```
-
-### Running Tests
-
-```bash
-# All tests
-pytest
-
-# Specific file
-pytest tests/test_runner.py
-
-# Specific test
-pytest tests/test_runner.py::test_runner_creation
-
-# With coverage
-pytest --cov=streamforge --cov-report=html
-```
-
----
-
 ## Documentation
 
 ### Building Docs Locally
@@ -284,35 +147,6 @@ mkdocs build
 
 Visit http://localhost:8000
 
-### Adding Examples
-
-Examples go in the `examples/` directory:
-
-```python
-"""
-Example Title
-=============
-
-Description of what this example does.
-
-Prerequisites:
-- streamforge installed
-- (other requirements)
-
-Run:
-    python example_name.py
-"""
-
-import asyncio
-import streamforge as sf
-
-async def main():
-    # Your example code
-    pass
-
-if __name__ == "__main__":
-    asyncio.run(main())
-```
 
 ---
 
