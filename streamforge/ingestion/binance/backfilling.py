@@ -101,11 +101,12 @@ class BinanceBackfilling:
             return self
 
     def transform(self, data: Union[Dict[str, Any], Kline]):
+        
+        if not isinstance(data, dict):
+            data = data.model_dump()
+        
         if self.transformer is not None:
-            if isinstance(data, dict):
-                return self.transformer(data)
-            else:
-                return self.transformer(data.model_dump())
+            return self.transformer(data)
         else:
             return data
 
