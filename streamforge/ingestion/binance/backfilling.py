@@ -187,16 +187,19 @@ class BinanceBackfilling:
             from_date=self.from_date,
             to_date=self.to_date)
 
-        current_date = initial_date.replace(day=1)
+        
+        
 
         if need_monthly_data:
+            current_date = initial_date.replace(day=1)
             monthly_dates, current_date = self._get_monthly_dates(current_date=current_date, previous_month=previous_month)
         else:
+            current_date = initial_date
             monthly_dates = []
 
         if need_daily_data:
             daily_dates = self._get_daily_dates(
-                current_date=initial_date,
+                current_date=current_date,
                 previous_day_date=previous_day_date,
                 target_date=target_date
             )
