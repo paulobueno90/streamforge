@@ -196,7 +196,7 @@ class BinanceBackfilling:
 
         if need_daily_data:
             daily_dates = self._get_daily_dates(
-                current_date=current_date,
+                current_date=initial_date,
                 previous_day_date=previous_day_date,
                 target_date=target_date
             )

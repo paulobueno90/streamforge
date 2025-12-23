@@ -12,8 +12,8 @@ def parse_string_to_timestamp(date_string: str, offset: int=0) -> int:
 
 
 def adjust_binance_timestamps(data: dict):
-    data["t"] = data["t"] // 1000
-    data["T"] = data["T"] // 1000
+    data["t"] = int(data["t"]) // 1000
+    data["T"] = int(data["T"]) // 1000
     return data
 
 
