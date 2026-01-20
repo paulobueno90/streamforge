@@ -13,7 +13,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Comprehensive test suite
 - Performance optimizations
 
-## [0.1.0] - 2025-01-06
+## [0.1.1] - 2026-01-20
+
+### Fixed
+- Backfilling for binance failing when a transformer was not set.
+- Added standard behavior, now it backfills correctly from CSV
+
+[0.1.1]: https://github.com/paulobueno90/streamforge/releases/tag/v0.1.1
+
+## [0.1.0] - 2025-10-14
 
 ### Added
 - Initial release of StreamForge

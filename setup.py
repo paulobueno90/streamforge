@@ -11,7 +11,7 @@ def read_readme():
 
 setup(
     name='streamforge',
-    version='0.1.0',
+    version='0.1.1',
     description='Real-time cryptocurrency data ingestion system',
     long_description=read_readme(),
     long_description_content_type='text/markdown',
