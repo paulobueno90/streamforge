@@ -224,7 +224,7 @@ graph LR
 !!! success "Simple & Intuitive"
     Clean, Pythonic API that's easy to learn. Get started in minutes, not hours.
 
-!!! success "Production Ready"
+!!! success "Performance Focused"
     Async-first architecture handles high-frequency data streams efficiently.
 
 !!! success "Extensible"
