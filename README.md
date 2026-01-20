@@ -20,7 +20,6 @@ StreamForge is a unified, async-first framework for ingesting real-time market d
 - **Data Transformation** - Built-in transformers for custom data processing
 - **Stream Merging** - Combine multiple exchanges into unified streams
 - **Type-Safe** - Full type hints and Pydantic validation
-- **Production Ready** - Async architecture for high-performance streaming
 
 ---
 
@@ -62,7 +61,7 @@ asyncio.run(main())
 
 **Output:**
 ```
-[Binance] BTCUSDT 1m | Open: $43,250.00 | High: $43,275.00 | Low: $43,240.00 | Close: $43,260.00
+[Binance] BTCUSDT 1m | Open: 43,250.00 | High: 43,275.00 | Low: 43,240.00 | Close: 43,260.00
 ```
 
 [📖 Read the full documentation →](https://paulobueno90.github.io/streamforge/)
