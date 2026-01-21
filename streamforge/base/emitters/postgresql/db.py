@@ -113,7 +113,9 @@ class PostgresEmitter(DataEmitter):
         else:
             obj_data = self._custom_transformer(obj_data)
 
-        return self.DATA_MODEL(**transform(record=obj_data, map_obj=self._columns_map))
+        filtered_data = transform(record=obj_data, map_obj=self._columns_map)
+
+        return self.DATA_MODEL(**filtered_data), filtered_data
 
     async def connect(self):
         """Initializes the SQLAlchemy async engine and sessionmaker."""
@@ -168,7 +170,7 @@ class PostgresEmitter(DataEmitter):
             return
 
         try:
-            data_obj = self._create_model_object(data=data)
+            data_obj, output_data = self._create_model_object(data=data)
 
             async with self.AsyncSessionLocal() as session:
                 try:
@@ -205,7 +207,7 @@ class PostgresEmitter(DataEmitter):
                 except Exception:
                     await session.rollback()
                     raise
-                logging.info(f"Emitted Data | Emitter: {self.name} | Mode: ORM | {data_obj}.")
+                logging.info(f"Emitted Data | Emitter: {self.name} | Mode: ORM | {output_data}.")
         except Exception as e:
             logging.error(f"Error inserting data: {e}")
 
@@ -223,7 +225,7 @@ class PostgresEmitter(DataEmitter):
             # Convert all Pydantic models into ORM objects
             objs = []
             for data in data_list:
-                data_obj = self._create_model_object(data=data)
+                data_obj, _ = self._create_model_object(data=data)
                 objs.append(data_obj)
 
             async with self.AsyncSessionLocal() as session:
