@@ -46,12 +46,11 @@ class CSVEmitter(DataEmitter):
 
     def transform(self, data: dict):
         if self._custom_transformer is None:
-            return data
+            return data.model_dump()
         else:
             return self._custom_transformer(data)
 
     async def _emit_single(self, data: Dict[str,Any]):
-        """Inserts data using a SQLAlchemy ORM model."""
 
         try:
             batch = [self.transform(data=data)]
