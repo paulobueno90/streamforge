@@ -44,6 +44,7 @@ from .base.emitters.base import DataEmitter, EmitterHolder
 from .base.emitters.logger.logger import Logger
 from .base.emitters.postgresql.db import PostgresEmitter
 from .base.emitters.kafka.kafka import KafkaEmitter
+from .base.emitters.csv.csv import CSVEmitter
 from .base.normalize.ohlc.models.candle import Kline
 
 from .ingestion.binance.backfilling import BinanceBackfilling
