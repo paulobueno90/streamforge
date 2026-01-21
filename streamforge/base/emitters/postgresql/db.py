@@ -29,7 +29,8 @@ class PostgresEmitter(DataEmitter):
             port: int = 5432,
             upsert: bool = False,
             index_elements: Optional[list[str]] = None,
-            transformer: Callable[[Dict[str, Any]], dict] = None
+            transformer: Callable[[Dict[str, Any]], dict] = None,
+            from_model_create_table: bool = False # If True, the table will be created from the model
     ):
         if url:
             self._url = url
@@ -47,7 +48,7 @@ class PostgresEmitter(DataEmitter):
         self._dump_include = None
         self._upsert = upsert
         self._index_elements = index_elements
-
+        self._auto_create = from_model_create_table
         self._query = None
         self._custom_transformer = transformer
 
@@ -72,6 +73,8 @@ class PostgresEmitter(DataEmitter):
 
         self._query = query
         self._emit_func = self._emit_sql
+        logging.warning("'set_query' assumes that the query is a valid SQL query and will be executed directly." 
+                            "Make sure to use placeholders for parameters and the table name is correctly set.")
         if inplace:
             return None
         else:
@@ -122,6 +125,17 @@ class PostgresEmitter(DataEmitter):
                 self.engine, class_=AsyncSession, expire_on_commit=False
             )
             logging.info("Successfully initialized SQLAlchemy async engine.")
+
+            if self._auto_create:
+                if self.DATA_MODEL is None:
+                    raise ValueError("auto_create=True requires set_model(model) before connect().")
+
+                async with self.engine.begin() as conn:
+                    # Creates the table if it doesn't exist
+                    await conn.run_sync(self.DATA_MODEL.metadata.create_all)
+
+                    logging.info(f"Successfully created table {self.DATA_MODEL.__tablename__}.")
+                    
         except Exception as e:
             logging.error(f"Error connecting to the database: {e}")
             self.engine = None
@@ -193,7 +207,7 @@ class PostgresEmitter(DataEmitter):
                     raise
                 logging.info(f"Emitted Data | Emitter: {self.name} | Mode: ORM | {data_obj}.")
         except Exception as e:
-            logging.info(f"Error inserting data: {e}")
+            logging.error(f"Error inserting data: {e}")
 
     async def emit_orm_bulk(self, data_list: list[BaseModel]):
         """Insert a list of data objects in bulk using SQLAlchemy ORM."""
