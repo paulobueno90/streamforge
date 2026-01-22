@@ -15,16 +15,10 @@ class CSVEmitter(DataEmitter):
 
     def __init__(
             self,
-            source: str,
-            symbol: str,
-            timeframe: str,
             name: str = EMITTER,
             file_path: Optional[str] = None,
             transformer_function: Callable[[Dict[str, Any]], dict] = None
     ):
-        self.source = source
-        self.symbol = symbol
-        self.timeframe = timeframe
         self.name = name
         self._custom_transformer = transformer_function
         self.file_path = file_path
