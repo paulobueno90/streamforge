@@ -2,6 +2,8 @@ import logging
 import pandas as pd
 from pathlib import Path
 from typing import Optional, Callable, Dict, Any, Union, List
+from functools import singledispatch
+from streamforge.data_container.ohlc import Kline
 
 from ..base import DataEmitter
 from ..util import transform
@@ -38,23 +40,18 @@ class CSVEmitter(DataEmitter):
         else:
             return self
 
-    def transform(self, data: dict):
-        if self._custom_transformer is None:
-            return data.model_dump()
-        else:
-            return self._custom_transformer(data)
+    
 
-    async def _emit_single(self, data: Dict[str,Any]):
+    async def _emit_single(self, data: List[Dict[str, Any]]):
 
         try:
-            batch = [self.transform(data=data)]
-            df = pd.DataFrame(batch)
+            df = pd.DataFrame(data)
             if Path(self.file_path).exists():
                 df.to_csv(self.file_path, mode="a", header=not Path(self.file_path).exists(), index=False)
             else:
                 df.to_csv(self.file_path, index=False)
 
-            logging.info(f"Emitted Data | Emitter: {self.name} | {batch[0]}.")
+            logging.info(f"Emitted Data | Emitter: {self.name} | {data[0]}.")
         except Exception as e:
             logging.info(f"Error inserting data: {e}")
 
@@ -73,11 +70,39 @@ class CSVEmitter(DataEmitter):
         except Exception as e:
             logging.error(f"Error inserting bulk data: {e}")
 
-    async def emit(self, data: Union[Dict[str, Any], List[Dict[str, Any]]]):
-        if isinstance(data, list):
-            await self._emit_bulk(data=data)
-        else:
-            await self._emit_single(data=data)
+    @singledispatch
+    def transform(self, data: Any):
+        raise TypeError(f"Unsupported data type: {type(data)}")
+    
+    @transform.register(dict)
+    def _(self, data: Dict[str, Any]):
+        return data
+    
+    @transform.register(Kline)
+    def _(self, data: Kline):
+        return data.model_dump()
+
+
+    @singledispatch
+    async def emit(self, data: Any):
+        raise TypeError(f"Unsupported data type: {type(data)}")
+    
+    @emit.register(list)
+    async def _(self, data: List[Dict[str, Any]]):
+        batch_data = [self.transform(data=item) for item in data]
+        await self._emit_bulk(data_list=batch_data)
+    
+    @emit.register(dict)
+    async def _(self, data: Dict[str, Any]):
+        batch_data = [self.transform(data=data)]
+        await self._emit_single(data=batch_data)
+
+    @emit.register(Kline)
+    async def _(self, data: Kline):
+        batch_data = [self.transform(data=data)]
+        await self._emit_single(data=batch_data)
+
+    
 
     def register_map(self, columns_map: dict[str, str]):
         pass
