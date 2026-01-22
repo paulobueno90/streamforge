@@ -51,7 +51,7 @@ class CSVEmitter(DataEmitter):
             else:
                 df.to_csv(self.file_path, index=False)
 
-            logging.info(f"Emitted Data | Emitter: {self.name} | {data[0]}.")
+            logging.info(f"Emitted Data | Emitter: {self.name} | File: {self.file_path} | {data[0]}.")
         except Exception as e:
             logging.info(f"Error inserting data: {e}")
 
@@ -66,7 +66,7 @@ class CSVEmitter(DataEmitter):
             df = pd.DataFrame(batch)
 
             df.to_csv(self.file_path, mode="a", header=not Path(self.file_path).exists(), index=False)
-            logging.info(f"Inserted {len(df)} rows | File: {self.file_path} | First Row: {df.iloc[0].to_dict()}")
+            logging.info(f"Emitted Data | Emitter: {self.name} | File: {self.file_path} | {len(df)} rows | First Row: {df.iloc[0].to_dict()}")
         except Exception as e:
             logging.error(f"Error inserting bulk data: {e}")
 
