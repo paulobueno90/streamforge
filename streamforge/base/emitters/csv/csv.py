@@ -3,7 +3,7 @@ import pandas as pd
 from pathlib import Path
 from typing import Optional, Callable, Dict, Any, Union, List
 from functools import singledispatch
-from streamforge.data_container.ohlc import Kline
+from streamforge.base.normalize.ohlc.models.candle import Kline
 
 from ..base import DataEmitter
 from ..util import transform
