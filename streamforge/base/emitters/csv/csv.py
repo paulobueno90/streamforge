@@ -2,7 +2,7 @@ import logging
 import pandas as pd
 from pathlib import Path
 from typing import Optional, Callable, Dict, Any, Union, List
-from functools import singledispatch
+from functools import singledispatchmethod
 from streamforge.base.normalize.ohlc.models.candle import Kline
 
 from ..base import DataEmitter
@@ -70,13 +70,9 @@ class CSVEmitter(DataEmitter):
         except Exception as e:
             logging.error(f"Error inserting bulk data: {e}")
 
-    @singledispatch
+    @singledispatchmethod
     def transform(self, data: Any):
-
-        if isinstance(data, Kline):
-            return data.model_dump()
-        else:
-            raise TypeError(f"Unsupported data type: {type(data)}")
+        raise TypeError(f"Unsupported data type: {type(data)}")
     
     @transform.register(dict)
     def _(self, data: Dict[str, Any]):
@@ -87,7 +83,7 @@ class CSVEmitter(DataEmitter):
         return data.model_dump()
 
 
-    @singledispatch
+    @singledispatchmethod
     async def emit(self, data: Any):
         raise TypeError(f"Unsupported data type: {type(data)}")
     
