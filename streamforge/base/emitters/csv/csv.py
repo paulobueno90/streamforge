@@ -89,17 +89,17 @@ class CSVEmitter(DataEmitter):
     
     @emit.register(list)
     async def _(self, data: List[Dict[str, Any]]):
-        batch_data = [self.transform(data=item) for item in data]
+        batch_data = [self.transform(item) for item in data]
         await self._emit_bulk(data_list=batch_data)
     
     @emit.register(dict)
     async def _(self, data: Dict[str, Any]):
-        batch_data = [self.transform(data=data)]
+        batch_data = [self.transform(data)]
         await self._emit_single(data=batch_data)
 
     @emit.register(Kline)
     async def _(self, data: Kline):
-        batch_data = [self.transform(data=data)]
+        batch_data = [self.transform(data)]
         await self._emit_single(data=batch_data)
 
     
