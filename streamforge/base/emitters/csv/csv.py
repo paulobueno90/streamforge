@@ -72,7 +72,11 @@ class CSVEmitter(DataEmitter):
 
     @singledispatch
     def transform(self, data: Any):
-        raise TypeError(f"Unsupported data type: {type(data)}")
+
+        if isinstance(data, Kline):
+            return data.model_dump()
+        else:
+            raise TypeError(f"Unsupported data type: {type(data)}")
     
     @transform.register(dict)
     def _(self, data: Dict[str, Any]):
