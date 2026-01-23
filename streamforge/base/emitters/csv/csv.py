@@ -1,4 +1,3 @@
-import logging
 import pandas as pd
 from pathlib import Path
 from typing import Optional, Callable, Dict, Any, Union, List
@@ -7,6 +6,7 @@ from streamforge.base.normalize.ohlc.models.candle import Kline
 
 from ..base import DataEmitter
 from ..util import transform
+from streamforge.base.config import config
 
 
 class CSVEmitter(DataEmitter):
@@ -24,7 +24,7 @@ class CSVEmitter(DataEmitter):
         self.name = name
         self._custom_transformer = transformer_function
         self.file_path = file_path
-        logging.info("CSVWriter initialized.")
+        config.logger.info("CSVWriter initialized.")
 
     def set_transformer(self, transformer_function: Callable[[Dict[str,Any]], dict], inplace=False):
         self._custom_transformer = transformer_function
@@ -51,14 +51,14 @@ class CSVEmitter(DataEmitter):
             else:
                 df.to_csv(self.file_path, index=False)
 
-            logging.info(f"Emitted Data | Emitter: {self.name} | File: {self.file_path} | {data[0]}.")
+            config.logger.info(f"Emitted Data | Emitter: {self.name} | File: {self.file_path} | {data[0]}.")
         except Exception as e:
-            logging.info(f"Error inserting data: {e}")
+            config.logger.info(f"Error inserting data: {e}")
 
     async def emit_bulk(self, data_list: list[Dict[str, Any]]):
 
         if not data_list:
-            logging.warning("Empty list passed to emit_bulk.")
+            config.logger.warning("Empty list passed to emit_bulk.")
             return
 
         try:
@@ -66,9 +66,9 @@ class CSVEmitter(DataEmitter):
             df = pd.DataFrame(batch)
 
             df.to_csv(self.file_path, mode="a", header=not Path(self.file_path).exists(), index=False)
-            logging.info(f"Emitted Data | Emitter: {self.name} | File: {self.file_path} | {len(df)} rows | First Row: {df.iloc[0].to_dict()}")
+            config.logger.info(f"Emitted Data | Emitter: {self.name} | File: {self.file_path} | {len(df)} rows | First Row: {df.iloc[0].to_dict()}")
         except Exception as e:
-            logging.error(f"Error inserting bulk data: {e}")
+            config.logger.error(f"Error inserting bulk data: {e}")
 
     @singledispatchmethod
     def transform(self, data: Any):

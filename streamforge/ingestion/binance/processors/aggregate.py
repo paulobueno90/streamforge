@@ -1,6 +1,6 @@
-import logging
 from typing import List
 from streamforge.base.models import BaseKlineBuffer, BaseAggregateTF
+from streamforge.base.config import config
 from .util import adjust_timestamp, get_first_index
 from streamforge.base.normalize.ohlc.models.timeframes import BaseTimeframe, TIMEFRAME_CLASS_MAP
 #from streamforge.ingestion.normalize.ohlc.models.candle import Kline
@@ -21,13 +21,13 @@ class AggregateTF(BaseAggregateTF):
                 if ((tf_class % self.timeframe)  == 0) and (tf_class > self.timeframe):
                     timeframes_to_agg.append(tf_class)
                 else:
-                    logging.warning(f"Data in timeframe '{self.timeframe.string_tf}' cannot be aggregated to '{tf_class.string_tf}'. "
+                    config.logger.warning(f"Data in timeframe '{self.timeframe.string_tf}' cannot be aggregated to '{tf_class.string_tf}'. "
                                     f"Aggregation for this timeframe dropped.")
             except KeyError:
-                logging.error(f"'{tf}' Timeframe does not exist, dropping data timeframe.")
+                config.logger.error(f"'{tf}' Timeframe does not exist, dropping data timeframe.")
 
             except Exception:
-                logging.error(f"Not possible to aggregate '{tf}'.")
+                config.logger.error(f"Not possible to aggregate '{tf}'.")
 
         return timeframes_to_agg
 

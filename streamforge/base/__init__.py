@@ -15,10 +15,13 @@ from .runner import Runner
 from .ws import WebsocketHandler, SubscribeError
 from .emitters.base import DataEmitter, EmitterHolder
 from .models import BaseKlineBuffer, BaseAggregateTF, WarmupConfigurationError
+from .config import config
+from .logger import DefaultLogger, SilentLogger
 
 __all__ = [
     # Configuration
     "DataInput",
+    "config",
     
     # Core classes
     "Runner",
@@ -33,4 +36,8 @@ __all__ = [
     "BaseKlineBuffer",
     "BaseAggregateTF",
     "WarmupConfigurationError",
+    
+    # Logger utilities
+    "DefaultLogger",
+    "SilentLogger",
 ]

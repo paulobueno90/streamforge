@@ -1,6 +1,6 @@
-import logging
 from typing import List
 from datetime import datetime, timezone
+from streamforge.base.config import config
 
 from streamforge.base.models import API_KLINES_COLUMNS, BaseKlineBuffer, WarmupConfigurationError
 from streamforge.base.normalize.ohlc.processor import OHLCDatNormalizer
@@ -63,7 +63,7 @@ def handle_aggregate_list(base_tf: str, aggregate_list: List[str]):
         if (agg_set & TIMEFRAMES_5M_REQUIRED_AGG) and ("5m" not in agg_set):
             aggregate_list.insert(0, "5m")
             force_5m = True
-            logging.warning("Kraken | Timeframe '5 minutes' included in warmup and processing because '1 minute' "
+            config.logger.warning("Kraken | Timeframe '5 minutes' included in warmup and processing because '1 minute' "
                             "warmup might have missing data due to API limitations.")
 
     return aggregate_list, force_5m
@@ -85,14 +85,14 @@ def config_aggregation(streams_input, aggregate_cls, warmup_active):
         )
 
         if agg_obj.is_empty:
-            logging.info(f"Aggregation Could not be initiated for timeframes: {streams_input.aggregate_list}")
-            logging.info("Aggregation Deactivated")
+            config.logger.info(f"Aggregation Could not be initiated for timeframes: {streams_input.aggregate_list}")
+            config.logger.info("Aggregation Deactivated")
             return None
         else:
-            logging.info(f"Aggregation Activated for: {[tf.tf for tf in agg_obj.target_timeframes]}")
+            config.logger.info(f"Aggregation Activated for: {[tf.tf for tf in agg_obj.target_timeframes]}")
             return agg_obj
     else:
-        logging.info("Aggregation Deactivated")
+        config.logger.info("Aggregation Deactivated")
         return None
 
 

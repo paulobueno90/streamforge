@@ -1,8 +1,8 @@
 import asyncio
-import logging
 import bisect
 from datetime import datetime, timezone
 from abc import ABC, abstractmethod
+from streamforge.base.config import config
 from streamforge.base.data_container.util import check_offset, get_start_timestamp
 from streamforge.base.normalize.ohlc.models.timeframes import TIMEFRAME_CLASS_MAP, BaseTimeframe
 from streamforge.base.normalize.ohlc.models.candle import Kline
@@ -108,7 +108,7 @@ class CandleData(ABC):
                 self.add_data(data=candle_data)
 
     async def warmup_generator(self):
-        logging.info(f"{self._source:<{10}} | Symbol: {self._symbol} | Timeframe: {self._timeframe.string_tf} | WARM-UP start")
+        config.logger.info(f"{self._source:<{10}} | Symbol: {self._symbol} | Timeframe: {self._timeframe.string_tf} | WARM-UP start")
 
         candles = await self.__fetch_candle_data()
 
@@ -120,19 +120,19 @@ class CandleData(ABC):
                 self.add_data(data=candle_data)
                 yield candle_data
 
-        logging.info(f"{self._source:<{10}} | Symbol: {self._symbol} | Timeframe: {self._timeframe.string_tf} | WARM-UP OK")
+        config.logger.info(f"{self._source:<{10}} | Symbol: {self._symbol} | Timeframe: {self._timeframe.string_tf} | WARM-UP OK")
 
     async def warmup_data(self):
-        logging.info(f"{self._source:<{10}} | Symbol: {self._symbol} | Timeframe: {self._timeframe.string_tf} | WARM-UP start")
+        config.logger.info(f"{self._source:<{10}} | Symbol: {self._symbol} | Timeframe: {self._timeframe.string_tf} | WARM-UP start")
         candles = await self._fetch_candle_data()
         self._insert_candles(candles=candles)
 
-        logging.info(f"{self._source:<{10}} | Symbol: {self._symbol} | Timeframe: {self._timeframe.string_tf} | WARM-UP OK")
+        config.logger.info(f"{self._source:<{10}} | Symbol: {self._symbol} | Timeframe: {self._timeframe.string_tf} | WARM-UP OK")
         return None
 
     def check_data(self):
         if check_offset(self._buffer, offset=self.offset):
-            logging.warning(f"{self._source:<{10}} | Data Missing for {self._symbol}-{self._timeframe}")
+            config.logger.warning(f"{self._source:<{10}} | Data Missing for {self._symbol}-{self._timeframe}")
 
     @property
     def data(self):

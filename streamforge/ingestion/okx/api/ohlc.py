@@ -1,8 +1,8 @@
 import sys
 import asyncio
 import aiohttp
-import logging
 from typing import List, Tuple, AnyStr, Dict, Any
+from streamforge.base.config import config
 from aiolimiter import AsyncLimiter
 from datetime import datetime, timezone
 
@@ -67,17 +67,17 @@ class OkxCandleApi(BaseCandleAPI):
                     return await response.json()
             except aiohttp.ClientResponseError as e:
                 if e.status == 50011:
-                    logging.warning("Rate limit exceeded. Waiting...")
+                    config.logger.warning("Rate limit exceeded. Waiting...")
                     await asyncio.sleep(60)
                     return await self._fetch_data_with_limit(session, url, params=params)
                 else:
                     raise Exception(f"HTTP Error for {url}: {e.status} - {e.message}")
 
             except aiohttp.ClientConnectionError as e:
-                logging.error(f"Connection Error for {url}: {e}")
+                config.logger.error(f"Connection Error for {url}: {e}")
                 raise ConnectionError(f"Connection Error for {url}: {e}")
             except Exception as e:
-                logging.error(f"An unexpected error occurred: {e}")
+                config.logger.error(f"An unexpected error occurred: {e}")
                 raise Exception(f"An unexpected error occurred: {e}")
 
     async def get_info(self):
@@ -93,7 +93,7 @@ class OkxCandleApi(BaseCandleAPI):
                 response = await asyncio.gather(*tasks)
                 return response
         except Exception as e:
-            logging.error(f"Critical error: {e}. Shutting down.")
+            config.logger.error(f"Critical error: {e}. Shutting down.")
             sys.exit(1)
 
     def _process_historical_inputs(self, symbol: AnyStr, timeframe: BaseTimeframe,from_date: str, to_date: str):
