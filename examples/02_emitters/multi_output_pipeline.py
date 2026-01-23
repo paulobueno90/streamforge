@@ -69,12 +69,9 @@ async def pattern1_csv_and_logger():
         file_path="btc_backup.csv"
     )
     
-    # Emitter 2: Print to console
-    logger = sf.Logger(prefix="DEBUG")
-    
-    # Register both - data goes to both destinations!
+    # Register emitter - data goes to CSV
+    # Note: Internal logging is handled by sf.config.logger
     runner.register_emitter(csv_emitter)
-    runner.register_emitter(logger)
     
     print("✓ Data will be:")
     print("  1. Saved to btc_backup.csv")
@@ -167,18 +164,14 @@ async def pattern3_triple_output():
         .on_conflict(["source", "symbol", "timeframe", "open_ts"])
     )
     
-    # Emitter 3: Logger for monitoring
-    logger = sf.Logger(prefix="MONITOR")
-    
-    # Register all three
+    # Register both emitters
     runner.register_emitter(csv_emitter)
     runner.register_emitter(postgres_emitter)
-    runner.register_emitter(logger)
     
     print("✓ Data will be:")
     print("  1. Backed up to CSV")
     print("  2. Stored in PostgreSQL")
-    print("  3. Logged to console")
+    print("  (Internal logging handled by sf.config.logger)")
     
     await runner.run()
 
@@ -226,20 +219,16 @@ async def pattern4_quad_output():
         bootstrap_servers="localhost:9092"
     )
     
-    # Emitter 4: Logger (monitoring)
-    logger = sf.Logger(prefix="FULL-PIPELINE")
-    
-    # Register all four!
+    # Register all three emitters
     runner.register_emitter(csv_emitter)
     runner.register_emitter(postgres_emitter)
     runner.register_emitter(kafka_emitter)
-    runner.register_emitter(logger)
     
     print("✓ Data will be:")
     print("  1. Backed up to CSV")
     print("  2. Stored in PostgreSQL")
     print("  3. Streamed to Kafka")
-    print("  4. Logged to console")
+    print("  (Internal logging handled by sf.config.logger)")
     print("\n  That's FOUR simultaneous outputs!")
     
     await runner.run()
@@ -271,8 +260,6 @@ async def pattern5_multi_exchange_multi_output():
         bootstrap_servers="localhost:9092"
     )
     
-    logger = sf.Logger(prefix="MULTI-EXCHANGE")
-    
     # Binance Runner
     binance_runner = sf.BinanceRunner(
         stream_input=sf.DataInput(
@@ -283,7 +270,6 @@ async def pattern5_multi_exchange_multi_output():
     )
     binance_runner.register_emitter(postgres_emitter)
     binance_runner.register_emitter(kafka_emitter)
-    binance_runner.register_emitter(logger)
     
     # OKX Runner
     okx_runner = sf.OKXRunner(
@@ -383,11 +369,8 @@ async def pattern6_conditional_outputs():
         runner.register_emitter(kafka_emitter)
         print("✓ Kafka streaming enabled")
     
-    # Conditionally enable debug logging
-    if ENABLE_DEBUG:
-        logger = sf.Logger(prefix=f"DEBUG-{ENVIRONMENT.upper()}")
-        runner.register_emitter(logger)
-        print("✓ Debug logging enabled")
+    # Note: Internal logging is handled by sf.config.logger
+    # You can customize it: sf.config.logger = your_logger
     
     print(f"\nEnvironment: {ENVIRONMENT}")
     print("Starting multi-output pipeline...")

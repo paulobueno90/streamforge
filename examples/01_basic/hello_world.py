@@ -32,8 +32,9 @@ async def main():
     # Create a runner for Binance
     runner = sf.BinanceRunner(stream_input=stream_input)
     
-    # Add a logger to print data (instead of saving it)
-    runner.register_emitter(sf.Logger(prefix="Binance"))
+    # Note: Internal logging is handled by sf.config.logger
+    # You can customize it: sf.config.logger = your_logger
+    # Or create a custom emitter to log data items
     
     # Start streaming (runs forever until Ctrl+C)
     await runner.run()

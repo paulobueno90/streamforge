@@ -51,8 +51,7 @@ async def scenario1_no_warmup():
         ),
         active_warmup=False  # No historical data
     )
-    # Runner already have logging inside, this emitter is just to show the output.
-    runner.register_emitter(sf.Logger(prefix="NO-WARMUP"))
+    # Internal logging is handled by sf.config.logger
     
     print("✓ Configuration:")
     print("  - active_warmup=False")
@@ -95,8 +94,7 @@ async def scenario2_warmup_no_emit():
         emit_warmup=False     # Don't save it (DEFAULT)
     )
     
-    # Runner already have logging inside, this emitter is just to show the output.
-    runner.register_emitter(sf.Logger(prefix="WARMUP-NO-EMIT"))
+    # Internal logging is handled by sf.config.logger
     
     print("✓ Configuration:")
     print("  - active_warmup=True")
@@ -139,8 +137,7 @@ async def scenario3_warmup_and_emit():
         emit_warmup=True      # Save it too!
     )
     
-    # Runner already have logging inside, this emitter is just to show the output.
-    runner.register_emitter(sf.Logger(prefix="WARMUP-EMIT"))
+    # Internal logging is handled by sf.config.logger
     
     print("✓ Configuration:")
     print("  - active_warmup=True")
@@ -177,8 +174,7 @@ async def scenario4_auto_warmup():
         # active_warmup not specified → automatic!
     )
     
-    # Runner already have logging inside, this emitter is just to show the output.
-    runner.register_emitter(sf.Logger(prefix="AUTO-WARMUP"))
+    # Internal logging is handled by sf.config.logger
     
     print("✓ Configuration:")
     print("  - active_warmup not specified")
@@ -210,8 +206,7 @@ async def scenario5_warmup_comparison():
         active_warmup=True,
         emit_warmup=False
     )
-    # Runner already have logging inside, this emitter is just to show the output.
-    runner_with_warmup.register_emitter(sf.Logger(prefix="WITH-WARMUP"))
+    # Internal logging is handled by sf.config.logger
     
     # Runner 2: Without warmup
     runner_without_warmup = sf.BinanceRunner(
@@ -223,8 +218,7 @@ async def scenario5_warmup_comparison():
         ),
         active_warmup=False
     )
-    # Runner already have logging inside, this emitter is just to show the output.
-    runner_without_warmup.register_emitter(sf.Logger(prefix="NO-WARMUP"))
+    # Internal logging is handled by sf.config.logger
     
     print("✓ Running two runners side by side:")
     print("  - BTCUSDT WITH warmup")

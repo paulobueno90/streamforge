@@ -37,7 +37,7 @@ async def example1_basic_aggregation():
         active_warmup=True  # Required for aggregation! default is True
     )
     
-    runner.register_emitter(sf.Logger(prefix="1M→5M")) # Runner already have logging inside, this emitter is just to show the output.
+    # Internal logging is handled by sf.config.logger
     
     
     print("✓ Will emit:")
@@ -68,7 +68,7 @@ async def example2_multiple_timeframes():
         active_warmup=True
     )
     
-    runner.register_emitter(sf.Logger(prefix="MULTI-TF")) # Runner already have logging inside, this emitter is just to show the output.
+    # Internal logging is handled by sf.config.logger
     
     print("✓ Will emit:")
     print("  - 1m candles (every 1 minute)")
@@ -105,8 +105,7 @@ async def example3_full_aggregation_pyramid():
         ),
         active_warmup=True
     )
-    # Runner already have logging inside, this emitter is just to show the output.
-    runner.register_emitter(sf.Logger(prefix="PYRAMID"))
+    # Internal logging is handled by sf.config.logger
     
     print("✓ Aggregation pyramid:")
     print("  1m → 5m → 15m → 30m → 1h → 4h → 1d")
@@ -250,8 +249,7 @@ async def example6_multi_symbol_multi_timeframe():
         active_warmup=True
     )
     
-    # Runner already have logging inside, this emitter is just to show the output.
-    runner.register_emitter(sf.Logger(prefix="MULTI"))
+    # Internal logging is handled by sf.config.logger
     
     print("✓ Streaming:")
     print("  - 3 symbols (BTC, ETH, SOL)")
