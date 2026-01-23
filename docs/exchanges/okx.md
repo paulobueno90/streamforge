@@ -19,7 +19,7 @@ async def main():
         )
     )
     
-    runner.register_emitter(sf.Logger(prefix="OKX"))
+    
     await runner.run()
 
 asyncio.run(main())
@@ -143,7 +143,7 @@ async def okx_stream():
         )
     )
     
-    runner.register_emitter(sf.Logger(prefix="OKX"))
+    
     await runner.run()
 
 asyncio.run(okx_stream())
@@ -277,7 +277,7 @@ async def main():
     )
     
     runner.register_emitter(postgres)
-    runner.register_emitter(sf.Logger(prefix="OKX→DB"))
+    
     
     await runner.run()
 
@@ -301,7 +301,7 @@ async def multi_timeframe():
         active_warmup=True
     )
     
-    runner.register_emitter(sf.Logger(prefix="OKX Multi-TF"))
+    
     
     await runner.run()
 

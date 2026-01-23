@@ -19,7 +19,7 @@ async def main():
         )
     )
     
-    runner.register_emitter(sf.Logger(prefix="Kraken"))
+    
     await runner.run()
 
 asyncio.run(main())
@@ -142,7 +142,7 @@ async def kraken_stream():
         )
     )
     
-    runner.register_emitter(sf.Logger(prefix="Kraken"))
+    
     await runner.run()
 
 asyncio.run(kraken_stream())
@@ -221,7 +221,7 @@ async def main():
     )
     
     runner.register_emitter(postgres)
-    runner.register_emitter(sf.Logger(prefix="Kraken→DB"))
+    
     
     await runner.run()
 
@@ -251,7 +251,7 @@ async def kraken_to_csv():
     )
     
     runner.register_emitter(csv_emitter)
-    runner.register_emitter(sf.Logger(prefix="Kraken→CSV"))
+    
     
     await runner.run()
 

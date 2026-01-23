@@ -70,7 +70,7 @@ runner = sf.BinanceRunner(
 ### Registering Emitters
 
 ```python
-runner.register_emitter(sf.Logger())
+
 runner.register_emitter(csv_emitter)
 runner.register_emitter(postgres_emitter)
 ```

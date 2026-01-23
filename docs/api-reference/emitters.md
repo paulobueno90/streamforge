@@ -2,14 +2,7 @@
 
 Auto-generated API documentation for StreamForge emitters.
 
----
-
-## Logger
-
-::: streamforge.base.emitters.logger.logger.Logger
-    options:
-      show_root_heading: true
-      show_source: false
+**Note:** The Logger emitter has been removed. Use `sf.config.logger` for internal logging, or create a custom emitter to log data items.
 
 ---
 
@@ -59,13 +52,6 @@ Auto-generated API documentation for StreamForge emitters.
 ---
 
 ## Common Usage
-
-### Logger
-
-```python
-logger = sf.Logger(prefix="Binance")
-runner.register_emitter(logger)
-```
 
 ### CSV
 

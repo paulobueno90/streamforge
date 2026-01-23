@@ -428,7 +428,7 @@ async def separate_loggers():
             timeframe="1m"
         )
     )
-    binance.register_emitter(sf.Logger(prefix="🟡 Binance"))
+
     
     # OKX with its own logger
     okx = sf.OKXRunner(
@@ -438,7 +438,7 @@ async def separate_loggers():
             timeframe="1m"
         )
     )
-    okx.register_emitter(sf.Logger(prefix="🔵 OKX"))
+
     
     # Merge streams (emitters already attached)
     async for data in merge_streams(binance, okx):

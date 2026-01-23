@@ -54,7 +54,7 @@ async def main():
     
     # Create runner and add logger
     runner = sf.BinanceRunner(stream_input=stream)
-    runner.register_emitter(sf.Logger(prefix="Binance"))
+    
     
     # Start streaming!
     await runner.run()

@@ -25,58 +25,50 @@ runner.register_emitter(postgres_emitter)
 
 ---
 
-## Logger Emitter
+## Logging
 
-Print data to console for debugging and development.
+StreamForge uses a global logger that can be customized. Internal logging (connection status, errors, etc.) is handled automatically.
 
-### Basic Usage
+### Using the Global Logger
 
 ```python
 import streamforge as sf
 
-logger = sf.Logger(prefix="Binance")
-runner.register_emitter(logger)
+# Default logger (uses Python's logging module)
+# All internal logging goes through sf.config.logger
+
+# Customize the logger
+from loguru import logger
+sf.config.logger = logger
+
+# Or use standard logging
+import logging
+my_logger = logging.getLogger("myapp")
+sf.config.logger = my_logger
+
+# Or make it silent
+sf.config.set_silent()
 ```
 
-**Output:**
-```
-[Binance] BTCUSDT 1m | Open: $43,250.00 | High: $43,275.00 | Low: $43,240.00 | Close: $43,260.00
-```
+### Logging Data Items
 
-### Parameters
-
-| Parameter | Type | Default | Description |
-|-----------|------|---------|-------------|
-| `prefix` | `str` | `""` | Label for log messages |
-
-### When to Use
-
-✓ **Development** - See data format  
-✓ **Debugging** - Verify data flow  
-✓ **Monitoring** - Quick health check  
-
-✗ **Production** - Not for long-term storage  
-✗ **Analysis** - Can't query console output
-
-### Example
+If you need to log data items (not just internal status), create a custom emitter:
 
 ```python
-import asyncio
-import streamforge as sf
+from streamforge.base.emitters.base import DataEmitter
 
-async def main():
-    stream = sf.DataInput(
-        type="kline",
-        symbols=["BTCUSDT", "ETHUSDT"],
-        timeframe="1m"
-    )
+class DataLogger(DataEmitter):
+    async def emit(self, data):
+        sf.config.logger.info(f"Data: {data}")
     
-    runner = sf.BinanceRunner(stream_input=stream)
-    runner.register_emitter(sf.Logger(prefix="💰"))
+    async def connect(self):
+        pass
     
-    await runner.run()
+    async def close(self):
+        pass
 
-asyncio.run(main())
+# Use it
+
 ```
 
 ---
@@ -164,7 +156,7 @@ async def main():
     
     runner = sf.BinanceRunner(stream_input=stream)
     runner.register_emitter(csv_emitter)
-    runner.register_emitter(sf.Logger(prefix="CSV"))  # Also log
+    # Internal logging handled by sf.config.logger
     
     await runner.run()
 
@@ -385,7 +377,7 @@ async def main():
     # Run
     runner = sf.BinanceRunner(stream_input=stream)
     runner.register_emitter(postgres)
-    runner.register_emitter(sf.Logger(prefix="DB"))
+    # Internal logging handled by sf.config.logger
     
     await runner.run()
 
@@ -480,7 +472,7 @@ async def main():
     
     runner = sf.BinanceRunner(stream_input=stream)
     runner.register_emitter(kafka)
-    runner.register_emitter(sf.Logger(prefix="Kafka"))
+    # Internal logging handled by sf.config.logger
     
     await runner.run()
 
@@ -534,7 +526,7 @@ async def main():
     runner = sf.BinanceRunner(stream_input=stream)
     
     # Add multiple emitters
-    runner.register_emitter(sf.Logger(prefix="Monitor"))
+    # Internal logging handled by sf.config.logger
     runner.register_emitter(sf.CSVEmitter(
         source="Binance",
         symbol="BTCUSDT",
@@ -639,12 +631,17 @@ runner.register_emitter(webhook)
 postgres.on_conflict(primary_key_columns)
 ```
 
-### 3. Monitor with Logger
+### 3. Customize Logging
 
 ```python
-# Add logger alongside other emitters
-runner.register_emitter(sf.Logger(prefix="Monitor"))
-runner.register_emitter(postgres)
+# Customize the global logger
+from loguru import logger
+sf.config.logger = logger
+
+# Or use standard logging
+import logging
+my_logger = logging.getLogger("myapp")
+sf.config.logger = my_logger
 ```
 
 ### 4. Batch for Performance

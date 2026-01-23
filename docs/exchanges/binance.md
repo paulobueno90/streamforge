@@ -19,7 +19,7 @@ async def main():
         )
     )
     
-    runner.register_emitter(sf.Logger(prefix="Binance"))
+    
     await runner.run()
 
 asyncio.run(main())
@@ -137,7 +137,7 @@ async def binance_stream():
         )
     )
     
-    runner.register_emitter(sf.Logger(prefix="Binance"))
+    
     await runner.run()
 
 asyncio.run(binance_stream())
@@ -291,7 +291,7 @@ async def main():
     )
     
     runner.register_emitter(postgres)
-    runner.register_emitter(sf.Logger(prefix="Binance→DB"))
+    
     
     await runner.run()
 

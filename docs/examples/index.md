@@ -216,7 +216,7 @@ async def main():
     runner = sf.BinanceRunner(stream_input=stream)
     
     # 3. Add emitter(s)
-    runner.register_emitter(sf.Logger(prefix="StreamForge"))
+    
     
     # 4. Run!
     await runner.run()
@@ -234,7 +234,7 @@ if __name__ == "__main__":
 Always test with `Logger` first:
 
 ```python
-runner.register_emitter(sf.Logger(prefix="Test"))
+
 ```
 
 ### Test with Short Periods
@@ -246,7 +246,7 @@ import asyncio
 
 async def main():
     runner = sf.BinanceRunner(stream_input=stream)
-    runner.register_emitter(sf.Logger())
+    
     
     # Run for 30 seconds only
     try:
