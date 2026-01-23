@@ -52,7 +52,7 @@ if __name__ == "__main__":
     #db_kline_emitter.set_model(PriceData2, inplace=True)
 
     #streaming_kafka = KafkaEmitter(topic="test")
-    logger = kraken.Logger(prefix="Kraken")
+    # Note: Internal logging is handled by sf.config.logger
 
     input_kline_example = kraken.DataInput(
         type="ohlc",
@@ -67,7 +67,7 @@ if __name__ == "__main__":
 
     runner = kraken.KrakenRunner()
     runner.set_websocket_input(input_kline_example)
-    runner.register_emitter(emitter=logger)
+    # Internal logging is handled by sf.config.logger
     #runner.register_emitter(emitter=streaming_kafka)
     #runner.register_emitter(emitter=db_kline_emitter)
     asyncio.run(runner.run())
