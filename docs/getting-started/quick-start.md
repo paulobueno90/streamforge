@@ -40,7 +40,7 @@ async def main():
     runner = sf.BinanceRunner(stream_input=stream)
     
     # Add logger to see output
-    runner.register_emitter(sf.Logger(prefix="Binance"))
+    
     
     # Start streaming!
     await runner.run()
@@ -112,7 +112,7 @@ Each exchange has its own runner:
 ### 3. Emitter - Output the Data
 
 ```python
-runner.register_emitter(sf.Logger(prefix="Binance"))
+
 ```
 
 **Emitters** determine where data goes:
@@ -209,7 +209,7 @@ async def main():
     runner = sf.BinanceRunner(stream_input=stream)
     
     # Register multiple emitters
-    runner.register_emitter(sf.Logger(prefix="Binance"))
+    
     runner.register_emitter(sf.CSVEmitter(
         source="Binance",
         symbol="BTCUSDT",
@@ -309,7 +309,7 @@ StreamForge supports multiple exchanges with the same API:
 Use `Logger` to see what data looks like:
 
 ```python
-runner.register_emitter(sf.Logger(prefix="DEBUG"))
+
 ```
 
 ### Pattern 2: Save Everything to CSV
@@ -331,7 +331,7 @@ runner.register_emitter(csv)
 Debug while saving:
 
 ```python
-runner.register_emitter(sf.Logger(prefix="Stream"))
+
 runner.register_emitter(csv_emitter)
 ```
 
@@ -349,7 +349,7 @@ import asyncio
 
 async def main():
     runner = sf.BinanceRunner(stream_input=stream)
-    runner.register_emitter(sf.Logger())
+    
     
     # Run for 60 seconds
     try:
@@ -445,7 +445,7 @@ async def main():
     runner = sf.BinanceRunner(stream_input=stream)
     
     # Add emitters
-    runner.register_emitter(sf.Logger(prefix="💰 Binance"))
+    
     runner.register_emitter(sf.CSVEmitter(
         source="Binance",
         symbol="BTCUSDT",

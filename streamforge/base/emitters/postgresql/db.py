@@ -1,6 +1,6 @@
-import logging
 from typing import Optional, Callable, Dict, Any, Union
 from sqlalchemy.sql import text
+from streamforge.base.config import config
 from sqlalchemy.orm import declarative_base
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sessionmaker
 from sqlalchemy.dialects.postgresql import insert
@@ -53,7 +53,7 @@ class PostgresEmitter(DataEmitter):
         self._custom_transformer = transformer
 
         self._emit_func = self._emit_orm
-        logging.info("PostgresWriter initialized.")
+        config.logger.info("PostgresWriter initialized.")
 
     def on_conflict(self, index_elements: list[str], inplace=False):
         self._upsert = True
@@ -73,7 +73,7 @@ class PostgresEmitter(DataEmitter):
 
         self._query = query
         self._emit_func = self._emit_sql
-        logging.warning("'set_query' assumes that the query is a valid SQL query and will be executed directly." 
+        config.logger.warning("'set_query' assumes that the query is a valid SQL query and will be executed directly." 
                             "Make sure to use placeholders for parameters and the table name is correctly set.")
         if inplace:
             return None
@@ -126,7 +126,7 @@ class PostgresEmitter(DataEmitter):
             self.AsyncSessionLocal = async_sessionmaker(
                 self.engine, class_=AsyncSession, expire_on_commit=False
             )
-            logging.info("Successfully initialized SQLAlchemy async engine.")
+            config.logger.info("Successfully initialized SQLAlchemy async engine.")
 
             if self._auto_create:
                 if self.DATA_MODEL is None:
@@ -136,10 +136,10 @@ class PostgresEmitter(DataEmitter):
                     # Creates the table if it doesn't exist
                     await conn.run_sync(self.DATA_MODEL.metadata.create_all)
 
-                    logging.info(f"Successfully created table {self.DATA_MODEL.__tablename__}.")
+                    config.logger.info(f"Successfully created table {self.DATA_MODEL.__tablename__}.")
                     
         except Exception as e:
-            logging.error(f"Error connecting to the database: {e}")
+            config.logger.error(f"Error connecting to the database: {e}")
             self.engine = None
             self.AsyncSessionLocal = None
 
@@ -147,7 +147,7 @@ class PostgresEmitter(DataEmitter):
 
         params = data.model_dump()
         if not self.AsyncSessionLocal:
-            logging.error("No database connection available. Cannot emit SQL.")
+            config.logger.error("No database connection available. Cannot emit SQL.")
             return
 
         try:
@@ -156,17 +156,17 @@ class PostgresEmitter(DataEmitter):
 
                     await session.execute(text(self._query), params)
                     await session.commit()
-                    logging.info(f"Emitted Data | Emitter: {self.name} | Mode: Query | {params}.")
+                    config.logger.info(f"Emitted Data | Emitter: {self.name} | Mode: Query | {params}.")
                 except Exception:
                     await session.rollback()
                     raise
         except Exception as e:
-            logging.error(f"Error executing custom SQL query: {e}")
+            config.logger.error(f"Error executing custom SQL query: {e}")
 
     async def _emit_orm(self, data: BaseModel):
         """Inserts data using a SQLAlchemy ORM model."""
         if not self.AsyncSessionLocal:
-            logging.error("No database connection available. Cannot emit data.")
+            config.logger.error("No database connection available. Cannot emit data.")
             return
 
         try:
@@ -207,18 +207,18 @@ class PostgresEmitter(DataEmitter):
                 except Exception:
                     await session.rollback()
                     raise
-                logging.info(f"Emitted Data | Emitter: {self.name} | Mode: ORM | {output_data}.")
+                config.logger.info(f"Emitted Data | Emitter: {self.name} | Mode: ORM | {output_data}.")
         except Exception as e:
-            logging.error(f"Error inserting data: {e}")
+            config.logger.error(f"Error inserting data: {e}")
 
     async def emit_orm_bulk(self, data_list: list[BaseModel]):
         """Insert a list of data objects in bulk using SQLAlchemy ORM."""
         if not self.AsyncSessionLocal:
-            logging.error("No database connection available. Cannot emit bulk data.")
+            config.logger.error("No database connection available. Cannot emit bulk data.")
             return
 
         if not data_list:
-            logging.warning("Empty list passed to emit_bulk.")
+            config.logger.warning("Empty list passed to emit_bulk.")
             return
 
         try:
@@ -261,12 +261,12 @@ class PostgresEmitter(DataEmitter):
                         session.add_all(objs)
 
                     await session.commit()
-                    logging.info(f"Bulk emitted {len(objs)} records to {self.name}.")
+                    config.logger.info(f"Bulk emitted {len(objs)} records to {self.name}.")
                 except Exception:
                     await session.rollback()
                     raise
         except Exception as e:
-            logging.error(f"Error inserting bulk data: {e}")
+            config.logger.error(f"Error inserting bulk data: {e}")
 
     async def emit(self, data: BaseModel):
         await self._emit_func(data=data)
@@ -275,5 +275,5 @@ class PostgresEmitter(DataEmitter):
         """Disposes the engine, closing the connection pool."""
         if self.engine:
             await self.engine.dispose()
-            logging.info("SQLAlchemy engine and connection pool closed.")
+            config.logger.info("SQLAlchemy engine and connection pool closed.")
 

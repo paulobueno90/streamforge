@@ -41,7 +41,6 @@ from .ingestion.okx.runner import OKXRunner
 # Convenience imports
 from .base.stream_input import DataInput
 from .base.emitters.base import DataEmitter, EmitterHolder
-from .base.emitters.logger.logger import Logger
 from .base.emitters.postgresql.db import PostgresEmitter
 from .base.emitters.kafka.kafka import KafkaEmitter
 from .base.emitters.csv.csv import CSVEmitter
@@ -50,6 +49,10 @@ from .base.normalize.ohlc.models.candle import Kline
 from .ingestion.binance.backfilling import BinanceBackfilling
 from .ingestion.okx.backfilling import OkxBackfilling
 
+# Logger and config imports
+from .base.config import config
+from .base.logger import DefaultLogger, SilentLogger
+
 __all__ = [
     # Submodules
     "base",
@@ -57,6 +60,7 @@ __all__ = [
     
     # Configuration
     "DataInput",
+    "config",
     
     # Runners (most common usage)
     "BinanceRunner",
@@ -66,7 +70,6 @@ __all__ = [
     # Emitters
     "DataEmitter",
     "EmitterHolder",
-    "Logger",
     "PostgresEmitter",
     "KafkaEmitter",
     
@@ -76,7 +79,10 @@ __all__ = [
     # Backfilling
     "BinanceBackfilling",
     "OkxBackfilling",
-
+    
+    # Logger utilities
+    "DefaultLogger",
+    "SilentLogger",
     
     # Metadata
     "__version__",

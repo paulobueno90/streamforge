@@ -1,7 +1,6 @@
 import sys
 import asyncio
 import aiohttp
-import logging
 
 from aiolimiter import AsyncLimiter
 from datetime import datetime, timezone
@@ -10,6 +9,7 @@ from .error import BinanceAPIBanError
 
 from streamforge.base.normalize.ohlc.models.timeframes import BaseTimeframe
 from streamforge.base.api import BaseCandleAPI
+from streamforge.base.config import config
 
 
 BINANCE_API_KLINE_BASE_URL = 'https://api.binance.com/api/v3/klines?symbol={}&interval={}&limit={}&startTime={}&endTime={}'
@@ -73,20 +73,20 @@ class BinanceAPI(BaseCandleAPI):
                     return await response.json()
             except aiohttp.ClientResponseError as e:
                 if e.status == 429:
-                    logging.warning("Rate limit exceeded. Waiting...")
+                    config.logger.warning("Rate limit exceeded. Waiting...")
                     await asyncio.sleep(60)
                     return await self._fetch_data_with_limit(session, url)
                 elif e.status == 418:
-                    logging.critical(f"IP has been temporarily banned. Status: {e.status}")
+                    config.logger.critical(f"IP has been temporarily banned. Status: {e.status}")
                     raise BinanceAPIBanError(f"IP has been temporarily banned. Status: {e.status}")
                 else:
                     raise Exception(f"HTTP Error for {url}: {e.status} - {e.message}")
 
             except aiohttp.ClientConnectionError as e:
-                logging.error(f"Connection Error for {url}: {e}")
+                config.logger.error(f"Connection Error for {url}: {e}")
                 raise ConnectionError(f"Connection Error for {url}: {e}")
             except Exception as e:
-                logging.error(f"An unexpected error occurred: {e}")
+                config.logger.error(f"An unexpected error occurred: {e}")
                 raise Exception(f"An unexpected error occurred: {e}")
 
     async def get_info(self):
@@ -97,7 +97,7 @@ class BinanceAPI(BaseCandleAPI):
                 return info
 
         except Exception as e:
-            logging.error(f"Critical error: {e}. Shutting down.")
+            config.logger.error(f"Critical error: {e}. Shutting down.")
             sys.exit(1)
 
     async def fetch_candles(self, symbol: str, timeframe: BaseTimeframe):
@@ -108,7 +108,7 @@ class BinanceAPI(BaseCandleAPI):
                 response = await asyncio.gather(*tasks)
                 return response
         except Exception as e:
-            logging.error(f"Critical error: {e}. Shutting down.")
+            config.logger.error(f"Critical error: {e}. Shutting down.")
             sys.exit(1)
 
 

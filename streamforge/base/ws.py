@@ -9,7 +9,6 @@ and coordinating data normalization and processing.
 import asyncio
 import inspect
 import orjson
-import logging
 import websockets
 from typing import Type, Optional, Dict, Union, List, ClassVar, AnyStr, Any
 from abc import ABC, abstractmethod
@@ -17,6 +16,7 @@ from streamforge.base.stream_input import DataInput
 from streamforge.base.normalize.normalize import GeneralNormalizers
 from streamforge.base.emitters.base import EmitterHolder
 from streamforge.base.data_processor.processor import GeneralProcessor
+from streamforge.base.config import config
 
 
 class SubscribeError(Exception):
@@ -120,10 +120,10 @@ class WebsocketHandler(ABC):
 
             try:
 
-                logging.info(f"{self._source:<{10}} | Subscribed Successful to params: {self._params} | "
+                config.logger.info(f"{self._source:<{10}} | Subscribed Successful to params: {self._params} | "
                              f"Websocket Input: {self._ws_input}.")
 
-                logging.info(f"{self._source:<{10}} | Websocket Connection established successfully!")
+                config.logger.info(f"{self._source:<{10}} | Websocket Connection established successfully!")
 
                 while True:
                     message = await websocket.recv()
@@ -134,19 +134,19 @@ class WebsocketHandler(ABC):
                         continue
 
                     async for processed in self.processor.process_data(data=normalized_data, raw_data=data):
-                        logging.info(f"{self._source:<{10}} | Data Received: {processed}")
+                        config.logger.info(f"{self._source:<{10}} | Data Received: {processed}")
                         await self.emitter_holder.emit(processed)
 
             except websockets.exceptions.ConnectionClosed:
-                logging.warning(f"Connection closed. Attempting to reconnect...")
+                config.logger.warning(f"Connection closed. Attempting to reconnect...")
                 continue
 
             except asyncio.TimeoutError:
-                logging.warning("Connection timed out. Attempting to reconnect...")
+                config.logger.warning("Connection timed out. Attempting to reconnect...")
                 continue
 
             except Exception as e:
-                logging.error(f"An unexpected error occurred: {e}. Reconnecting...")
+                config.logger.error(f"An unexpected error occurred: {e}. Reconnecting...")
                 raise Exception(e)
 
     async def stream(self):
@@ -170,8 +170,8 @@ class WebsocketHandler(ABC):
                     # send subscription params
                     await websocket.send(orjson.dumps(self._params).decode())
 
-                    logging.info(f"{self._source:<{10}} | Subscribed successfully: {self._params}")
-                    logging.info(f"{self._source:<{10}} | Connection established.")
+                    config.logger.info(f"{self._source:<{10}} | Subscribed successfully: {self._params}")
+                    config.logger.info(f"{self._source:<{10}} | Connection established.")
 
                     while True:  # recv loop
                         message = await websocket.recv()
@@ -185,20 +185,20 @@ class WebsocketHandler(ABC):
                                 data=normalized_data,
                                 raw_data=data
                         ):
-                            logging.info(f"{self._source:<{10}} | Data Received: {processed}")
+                            config.logger.info(f"{self._source:<{10}} | Data Received: {processed}")
 
                             yield processed
 
             except websockets.exceptions.ConnectionClosed:
-                logging.warning(f"{self._source:<{10}} | Connection closed. Reconnecting in {self._sleep_time}s...")
+                config.logger.warning(f"{self._source:<{10}} | Connection closed. Reconnecting in {self._sleep_time}s...")
                 await asyncio.sleep(self._sleep_time)
 
             except asyncio.TimeoutError:
-                logging.warning(f"{self._source:<{10}} | Timeout. Reconnecting in {self._sleep_time}s...")
+                config.logger.warning(f"{self._source:<{10}} | Timeout. Reconnecting in {self._sleep_time}s...")
                 await asyncio.sleep(self._sleep_time)
 
             except Exception as e:
-                logging.error(f"{self._source:<{10}} | Unexpected error: {e}. Reconnecting in {self._sleep_time}s...")
+                config.logger.error(f"{self._source:<{10}} | Unexpected error: {e}. Reconnecting in {self._sleep_time}s...")
                 await asyncio.sleep(self._sleep_time)
 
     @property

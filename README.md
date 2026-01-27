@@ -49,9 +49,9 @@ async def main():
         timeframe="1m"
     )
     
-    # Create runner and add logger
+    # Create runner
     runner = sf.BinanceRunner(stream_input=stream)
-    runner.register_emitter(sf.Logger(prefix="Binance"))
+    # Internal logging handled by sf.config.logger
     
     # Start streaming!
     await runner.run()
@@ -175,7 +175,7 @@ async def main():
         active_warmup=True  # Required for aggregation
     )
     
-    runner.register_emitter(sf.Logger(prefix="Multi-TF"))
+    
     await runner.run()
 
 asyncio.run(main())
@@ -263,7 +263,7 @@ runner = sf.OKXRunner(stream_input=stream)      # OKX
 Define where data goes:
 
 ```python
-sf.Logger()              # Print to console
+
 sf.CSVEmitter()          # Save to CSV
 sf.PostgresEmitter()     # Save to PostgreSQL
 sf.KafkaEmitter()        # Stream to Kafka
@@ -342,7 +342,7 @@ async def main():
         )
     )
     
-    runner.register_emitter(sf.Logger(prefix="Crypto"))
+    
     await runner.run()
 
 asyncio.run(main())
@@ -364,7 +364,7 @@ async def main():
     )
     
     # Register multiple emitters - data goes to ALL
-    runner.register_emitter(sf.Logger(prefix="Monitor"))
+    
     runner.register_emitter(csv_emitter)
     runner.register_emitter(postgres_emitter)
     runner.register_emitter(kafka_emitter)

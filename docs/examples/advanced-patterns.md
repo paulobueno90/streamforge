@@ -23,7 +23,7 @@ async def main():
         active_warmup=True  # Required for aggregation
     )
     
-    runner.register_emitter(sf.Logger(prefix="Multi-TF"))
+    
     await runner.run()
 
 asyncio.run(main())

@@ -1,5 +1,5 @@
-import logging
 import asyncio
+from streamforge.base.config import config
 import datetime as dt
 from datetime import datetime, timezone
 from pydantic import BaseModel
@@ -118,7 +118,7 @@ class OkxBackfilling:
         if emitter.EMITTER == "csv":
             emitter.set_file_path(file_path=self.file_path, inplace=True)
         self._emitter_holder.add(emitter=emitter, data_model=model, columns_map=map_object)
-        logging.info(f"Okx | ADDED | name: '{emitter.EMITTER}' type: '{emitter.EMITTER_TYPE}'")
+        config.logger.info(f"Okx | ADDED | name: '{emitter.EMITTER}' type: '{emitter.EMITTER_TYPE}'")
 
     def _parse_date(self, date_string: str, format_string: str = "%Y-%m-%d"):
         try:

@@ -1,5 +1,5 @@
-import logging
 import asyncio
+from streamforge.base.config import config
 import datetime as dt
 from datetime import datetime, timezone
 from pydantic import BaseModel
@@ -119,7 +119,7 @@ class BinanceBackfilling:
         if emitter.EMITTER == "csv":
             emitter.set_file_path(file_path=self.file_path, inplace=True)
         self._emitter_holder.add(emitter=emitter, data_model=model, columns_map=map_object)
-        logging.info(f"Binance | ADDED | name: '{emitter.EMITTER}' type: '{emitter.EMITTER_TYPE}'")
+        config.logger.info(f"Binance | ADDED | name: '{emitter.EMITTER}' type: '{emitter.EMITTER_TYPE}'")
 
     def _parse_date(self, date_string: str, format_string: str = "%Y-%m-%d"):
         try:
@@ -250,7 +250,7 @@ class BinanceBackfilling:
     def _get_csv_data(self):
         urls_list = self._get_urls()
         for file_path in urls_list:
-            logging.info(f"Binance | Start Processing CSV file | name: '{file_path.split('/')[-1]}'")
+            config.logger.info(f"Binance | Start Processing CSV file | name: '{file_path.split('/')[-1]}'")
             for row in self._read_csv_file(file_path=file_path):
                 data = row
                 data["s"] = self.symbol
@@ -258,7 +258,7 @@ class BinanceBackfilling:
                 kline_data = self._normalizer.csv(data=data)
                 yield kline_data
 
-            logging.info(f"Binance | End Processing CSV file | name: '{file_path.split('/')[-1]}'")
+            config.logger.info(f"Binance | End Processing CSV file | name: '{file_path.split('/')[-1]}'")
 
     async def stream(self, batch_size: int = 1000):
         buffer = []
@@ -274,7 +274,7 @@ class BinanceBackfilling:
 
     async def _get_from_api(self):
         tf_class = TIMEFRAME_CLASS_MAP[self.timeframe]
-        logging.info(f"Binance | Fetching data from API")
+        config.logger.info(f"Binance | Fetching data from API")
         data_from_api = await self._api.fetch_candles(symbol=self.symbol, timeframe=tf_class)
         klines = [self._normalizer.api(data=item, symbol=self.symbol, timeframe=self.timeframe) for sublist
                   in data_from_api for item in sublist]

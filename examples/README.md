@@ -49,12 +49,12 @@ python hello_world.py
 |------|-------------|------------|
 | `hello_world.py` | Simplest possible example | ⭐ |
 | `stream_vs_run.py` | Understanding the two main patterns | ⭐⭐ |
-| `logging_debug.py` | Using Logger emitter for debugging | ⭐ |
+| `logging_debug.py` | Using global logger for debugging | ⭐ |
 
 **Key Concepts:**
 - Creating a runner
 - Configuring data input
-- Using the Logger emitter
+- Using the global logger (sf.config.logger)
 - `run()` vs `stream()` methods
 
 ---

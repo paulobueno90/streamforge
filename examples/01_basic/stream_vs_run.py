@@ -147,9 +147,8 @@ async def pattern3_stream_with_emitter():
         )
     )
     
-    # Create emitter but don't register it yet
-    logger = sf.Logger(prefix="CONDITIONAL")
-    await logger.connect()
+    # Note: Use sf.config.logger for internal logging
+    # Or create a custom emitter if you need to log data items
     
     async for kline in runner.stream():
         # Calculate price change

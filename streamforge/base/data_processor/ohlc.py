@@ -7,7 +7,7 @@ from streamforge.base.ws import DataInput
 from streamforge.base.data_processor.aggregate import BaseAggregateTF, AggregateTF
 from streamforge.base.normalize.ohlc.models.timeframes import TIMEFRAME_BUFFER_SIZE_MAP, BaseTimeframe
 from streamforge.base.api import BaseCandleAPI
-import logging
+from streamforge.base.config import config
 
 
 class CandleProcessor2(ABC):
@@ -101,16 +101,16 @@ class CandleProcessor(ABC):
             )
 
             if agg_obj.is_empty:
-                logging.info(f"{self.source.title():<{10}} | Aggregation "
+                config.logger.info(f"{self.source.title():<{10}} | Aggregation "
                              f"Could not be initiated for timeframes: {streams_input.aggregate_list}")
-                logging.info(f"{self.source.title():<{10}} | Aggregation Deactivated")
+                config.logger.info(f"{self.source.title():<{10}} | Aggregation Deactivated")
                 return None
             else:
-                logging.info(f"{self.source.title():<{10}} | Aggregation Activated for: "
+                config.logger.info(f"{self.source.title():<{10}} | Aggregation Activated for: "
                              f"{[tf.string_tf for tf in agg_obj.target_timeframes]}")
                 return agg_obj
         else:
-            logging.info("Aggregation Deactivated")
+            config.logger.info("Aggregation Deactivated")
             return None
 
     def __handle_aggregate_list(self, base_tf: str, aggregate_list: List[str]):
@@ -122,7 +122,7 @@ class CandleProcessor(ABC):
             if (agg_set & TIMEFRAMES_5M_REQUIRED_AGG) and ("5m" not in agg_set):
                 aggregate_list.insert(0, "5m")
                 force_5m = True
-                logging.warning(f"{self.source.title():<{10}} | Timeframe '5 minutes' included in warmup and processing "
+                config.logger.warning(f"{self.source.title():<{10}} | Timeframe '5 minutes' included in warmup and processing "
                                 "because '1 minute' warmup might have missing data due to API limitations.")
 
         return aggregate_list, force_5m
@@ -218,7 +218,7 @@ class CandleProcessor(ABC):
                 continue
 
             self.add_data(ohlc_data=new_ohlc_data)
-            logging.info(f"{self.source.title():<{10}} | Data Aggregated: {new_ohlc_data}")
+            config.logger.info(f"{self.source.title():<{10}} | Data Aggregated: {new_ohlc_data}")
 
             if (tf.string_tf == "5m") and self._agg.tf_5m_force_included:
                 continue

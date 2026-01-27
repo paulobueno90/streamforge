@@ -1,7 +1,6 @@
 import asyncio
 import inspect
 import orjson
-import logging
 import websockets
 
 # DataInput is imported below from base.stream_input
@@ -15,15 +14,6 @@ from streamforge.base.normalize.normalize import GeneralNormalizers
 from streamforge.base.data_processor.processor import GeneralProcessor
 
 from streamforge.ingestion.binance.processors.processor import BinanceProcessor
-
-
-
-
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s',
-    datefmt='%Y-%m-%d %H:%M:%S'
-)
 
 
 class WebsocketParameters:

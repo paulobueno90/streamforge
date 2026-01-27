@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
-import logging
 from typing import Dict, Any, List
+from streamforge.base.config import config
 from streamforge.base.normalize.ohlc.models.candle import Kline
 from streamforge.base.normalize.ohlc.models.timeframes import BaseTimeframe, TIMEFRAME_CLASS_MAP
 from streamforge.base.data_container.ohlc import CandleData
@@ -62,14 +62,14 @@ class AggregateTF(BaseAggregateTF):
                 if ((tf_class % self.timeframe) == 0) and (tf_class > self.timeframe):
                     timeframes_to_agg.append(tf_class)
                 else:
-                    logging.warning(f"{self.source.title():<{10}} | Data in timeframe '{self.timeframe.string_tf}' "
+                    config.logger.warning(f"{self.source.title():<{10}} | Data in timeframe '{self.timeframe.string_tf}' "
                                     f"cannot be aggregated to '{tf_class.string_tf}'. "
                                     f"Aggregation for this timeframe dropped.")
             except KeyError:
-                logging.error(f"{self.source.title():<{10}} | '{tf}' Timeframe does not exist, dropping data timeframe.")
+                config.logger.error(f"{self.source.title():<{10}} | '{tf}' Timeframe does not exist, dropping data timeframe.")
 
             except Exception:
-                logging.error(f"{self.source.title():<{10}} | Not possible to aggregate '{tf}'.")
+                config.logger.error(f"{self.source.title():<{10}} | Not possible to aggregate '{tf}'.")
 
         return timeframes_to_agg
 

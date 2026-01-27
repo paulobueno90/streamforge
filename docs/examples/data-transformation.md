@@ -151,7 +151,7 @@ async def main():
     )
     
     runner.register_emitter(custom)
-    runner.register_emitter(sf.Logger(prefix="Monitor"))
+    
     
     await runner.run()
 

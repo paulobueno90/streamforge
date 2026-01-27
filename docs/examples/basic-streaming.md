@@ -24,7 +24,7 @@ async def main():
     runner = sf.BinanceRunner(stream_input=stream)
     
     # Add logger
-    runner.register_emitter(sf.Logger(prefix="Logger-Binance"))
+    
     
     # Start streaming!
     await runner.run()
@@ -70,7 +70,7 @@ async def main():
     )
     
     runner.register_emitter(csv_emitter)
-    runner.register_emitter(sf.Logger(prefix="Saving"))
+    
     
     await runner.run()
 
@@ -96,7 +96,7 @@ async def main():
     )
     
     runner = sf.BinanceRunner(stream_input=stream)
-    runner.register_emitter(sf.Logger(prefix="Multi"))
+    
     
     await runner.run()
 
@@ -123,7 +123,7 @@ async def timeframe_example(timeframe: str):
     )
     
     runner = sf.BinanceRunner(stream_input=stream)
-    runner.register_emitter(sf.Logger(prefix=f"BTC {timeframe}"))
+    
     
     await runner.run()
 
@@ -154,7 +154,7 @@ StreamForge works with multiple exchanges:
                 timeframe="1m"
             )
         )
-        runner.register_emitter(sf.Logger(prefix="Binance"))
+        
         await runner.run()
     
     asyncio.run(main())
@@ -173,7 +173,7 @@ StreamForge works with multiple exchanges:
                 timeframe="1m"
             )
         )
-        runner.register_emitter(sf.Logger(prefix="OKX"))
+        
         await runner.run()
     
     asyncio.run(main())
@@ -192,7 +192,7 @@ StreamForge works with multiple exchanges:
                 timeframe="1m"
             )
         )
-        runner.register_emitter(sf.Logger(prefix="Kraken"))
+        
         await runner.run()
     
     asyncio.run(main())
@@ -218,7 +218,7 @@ async def main():
     runner = sf.BinanceRunner(stream_input=stream)
     
     # Add multiple emitters - data goes to ALL
-    runner.register_emitter(sf.Logger(prefix="Monitor"))
+    
     runner.register_emitter(sf.CSVEmitter(
         source="Binance",
         symbol="BTCUSDT",
@@ -251,7 +251,7 @@ async def main():
     )
     
     runner = sf.BinanceRunner(stream_input=stream)
-    runner.register_emitter(sf.Logger(prefix="Timed"))
+    
     
     # Run for 60 seconds
     try:

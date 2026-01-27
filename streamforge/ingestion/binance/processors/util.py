@@ -1,5 +1,5 @@
-import logging
 from streamforge.base.models import BaseKlineBuffer, WarmupConfigurationError
+from streamforge.base.config import config
 
 
 def check_offset(data, offset):
@@ -28,14 +28,14 @@ def config_aggregation(streams_input, aggregate_cls, warmup_active):
         agg_obj = aggregate_cls(timeframe=streams_input.timeframe, target_timeframes=streams_input.aggregate_list)
 
         if agg_obj.is_empty:
-            logging.info(f"Aggregation Could not be initiated for timeframes: {streams_input.aggregate_list}")
-            logging.info("Aggregation Deactivated")
+            config.logger.info(f"Aggregation Could not be initiated for timeframes: {streams_input.aggregate_list}")
+            config.logger.info("Aggregation Deactivated")
             return None
         else:
-            logging.info(f"Aggregation Activated for: {[tf.string_tf for tf in agg_obj.target_timeframes]}")
+            config.logger.info(f"Aggregation Activated for: {[tf.string_tf for tf in agg_obj.target_timeframes]}")
             return agg_obj
     else:
-        logging.info("Aggregation Deactivated")
+        config.logger.info("Aggregation Deactivated")
         return None
 
 

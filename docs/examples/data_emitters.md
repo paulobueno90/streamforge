@@ -47,7 +47,7 @@ async def main():
     )
     
     runner.register_emitter(postgres)
-    runner.register_emitter(sf.Logger(prefix="DB"))
+    
     
     await runner.run()
 
@@ -135,7 +135,7 @@ async def main():
     )
     
     runner.register_emitter(kafka)
-    runner.register_emitter(sf.Logger(prefix="Kafka"))
+    
     
     await runner.run()
 
@@ -202,7 +202,7 @@ async def main():
     runner.register_emitter(postgres)
     runner.register_emitter(csv)
     runner.register_emitter(kafka)
-    runner.register_emitter(sf.Logger(prefix="Multi"))
+    
     
     await runner.run()
 

@@ -150,7 +150,6 @@ runner.register_emitter(emitter)
 Print to console (debugging):
 
 ```python
-logger = sf.Logger(prefix="Binance")
 runner.register_emitter(logger)
 ```
 

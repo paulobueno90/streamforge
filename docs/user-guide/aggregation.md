@@ -46,7 +46,7 @@ async def main():
         active_warmup=True  # Required for aggregation!
     )
     
-    runner.register_emitter(sf.Logger(prefix="Multi-TF"))
+    
     
     await runner.run()
 
@@ -339,7 +339,7 @@ async def main():
     )
     
     runner.register_emitter(postgres)
-    runner.register_emitter(sf.Logger(prefix="DB"))
+    
     
     await runner.run()
 

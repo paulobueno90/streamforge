@@ -1,7 +1,7 @@
 import asyncio
-import logging
 import bisect
 from datetime import datetime
+from streamforge.base.config import config
 
 from .aggregate import AggregateTF
 from .util import check_offset, config_aggregation
@@ -87,7 +87,7 @@ class KlineData(BaseKlineBuffer):
         return klines
 
     async def warmup_generator(self):
-        logging.info(f"Symbol: {self._symbol} | Timeframe: {self._timeframe.string_tf} | WARM-UP start")
+        config.logger.info(f"Symbol: {self._symbol} | Timeframe: {self._timeframe.string_tf} | WARM-UP start")
 
         klines = await self.__fetch_klines_data()
         timestamp_now = int(datetime.now().timestamp())
@@ -98,21 +98,21 @@ class KlineData(BaseKlineBuffer):
                 self.add_data(data=kline_data)
                 yield kline_data
 
-        logging.info(f"Symbol: {self._symbol} | Timeframe: {self._timeframe.string_tf} | WARM-UP OK")
+        config.logger.info(f"Symbol: {self._symbol} | Timeframe: {self._timeframe.string_tf} | WARM-UP OK")
 
     async def warmup_data(self):
 
-        logging.info(f"Symbol: {self._symbol} | Timeframe: {self._timeframe.string_tf} | WARM-UP start")
+        config.logger.info(f"Symbol: {self._symbol} | Timeframe: {self._timeframe.string_tf} | WARM-UP start")
 
         klines = await self.__fetch_klines_data()
         self._insert_klines(klines=klines)
 
-        logging.info(f"Symbol: {self._symbol} | Timeframe: {self._timeframe.string_tf} | WARM-UP OK")
+        config.logger.info(f"Symbol: {self._symbol} | Timeframe: {self._timeframe.string_tf} | WARM-UP OK")
         return None
 
     def check_data(self):
         if check_offset(self._buffer, offset=self.offset):
-            logging.warning(f"Data Missing for {self._symbol}-{self._timeframe}")
+            config.logger.warning(f"Data Missing for {self._symbol}-{self._timeframe}")
 
     @property
     def data(self):
@@ -190,7 +190,7 @@ class KlineBinance:
 
             self._insert_data(kline_data=new_kline_data)
 
-            logging.info(f"Data Aggregated: {new_kline_data}")
+            config.logger.info(f"Data Aggregated: {new_kline_data}")
 
             yield new_kline_data
 

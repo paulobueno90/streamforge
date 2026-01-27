@@ -1,11 +1,11 @@
 import orjson
-import logging
 from typing import Optional, Dict, Type
 from ..base import DataEmitter
 from aiokafka import AIOKafkaProducer
 from pydantic import BaseModel
 
 from ..util import transform
+from streamforge.base.config import config
 
 
 class KafkaEmitter(DataEmitter):
@@ -32,7 +32,7 @@ class KafkaEmitter(DataEmitter):
 
         self.name = name
 
-        logging.info("KafkaEmitter initialized.")
+        config.logger.info("KafkaEmitter initialized.")
 
     def set_model(self, model: Type[BaseModel]):
         """Set the canonical Pydantic model for this emitter."""
@@ -51,7 +51,7 @@ class KafkaEmitter(DataEmitter):
             value_serializer=self.value_serializer,
         )
         await self.producer.start()
-        logging.info("Kafka producer started successfully.")
+        config.logger.info("Kafka producer started successfully.")
 
     async def emit(self, data: BaseModel, key: Optional[str] = None):
         """Send a single message to Kafka."""
@@ -65,12 +65,12 @@ class KafkaEmitter(DataEmitter):
 
         try:
             await self.producer.send_and_wait(self.topic, value=obj_data, key=key.encode() if key else None)
-            logging.info(f"Emitted Data | Emitter: {self.name} | topic:'{self.topic}' | data: {obj_data}")
+            config.logger.info(f"Emitted Data | Emitter: {self.name} | topic:'{self.topic}' | data: {obj_data}")
         except Exception as e:
-            logging.error(f"Error sending message to Kafka: {e}")
+            config.logger.error(f"Error sending message to Kafka: {e}")
 
     async def close(self):
         """Close the Kafka producer."""
         if self.producer:
             await self.producer.stop()
-            logging.info("Kafka producer stopped.")
+            config.logger.info("Kafka producer stopped.")

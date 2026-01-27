@@ -1,8 +1,8 @@
 import sys
 import asyncio
 import aiohttp
-import logging
 from urllib.parse import urlencode
+from streamforge.base.config import config
 from aiolimiter import AsyncLimiter
 from typing import Any
 
@@ -53,7 +53,7 @@ class KrakenAPI(BaseCandleAPI):
                 return info
 
         except Exception as e:
-            logging.error(f"Critical error: {e}. Shutting down.")
+            config.logger.error(f"Critical error: {e}. Shutting down.")
             sys.exit(1)
 
     async def fetch_candles(self, symbol: str, timeframe: BaseTimeframe):
@@ -68,7 +68,7 @@ class KrakenAPI(BaseCandleAPI):
                 response = await asyncio.gather(*tasks)
                 return response[0]["result"][symbol]
         except Exception as e:
-            logging.error(f"Critical error: {e}. Shutting down.")
+            config.logger.error(f"Critical error: {e}. Shutting down.")
             sys.exit(1)
 
     async def _fetch_data_with_limit(self, session, url, params: Any = None):
@@ -83,11 +83,11 @@ class KrakenAPI(BaseCandleAPI):
                     if data.get('error') and len(data['error']) > 0:
                         error_msg = data['error'][0]
                         if 'Rate limit' in error_msg:
-                            logging.warning("Rate limit exceeded. Waiting...")
+                            config.logger.warning("Rate limit exceeded. Waiting...")
                             await asyncio.sleep(60)
                             return await self._fetch_data_with_limit(session, url)
                         elif 'IP banned' in error_msg or 'temporarily banned' in error_msg:
-                            logging.critical(f"IP has been temporarily banned. Error: {error_msg}")
+                            config.logger.critical(f"IP has been temporarily banned. Error: {error_msg}")
                             raise KrakenAPIBanError(f"IP has been temporarily banned. Error: {error_msg}")
                         else:
                             raise KrakenAPIError(f"Kraken API Error: {error_msg}")
@@ -96,20 +96,20 @@ class KrakenAPI(BaseCandleAPI):
 
             except aiohttp.ClientResponseError as e:
                 if e.status == 429:
-                    logging.warning("Rate limit exceeded. Waiting...")
+                    config.logger.warning("Rate limit exceeded. Waiting...")
                     await asyncio.sleep(60)
                     return await self._fetch_data_with_limit(session, url)
                 elif e.status == 418:
-                    logging.critical(f"IP has been temporarily banned. Status: {e.status}")
+                    config.logger.critical(f"IP has been temporarily banned. Status: {e.status}")
                     raise KrakenAPIBanError(f"IP has been temporarily banned. Status: {e.status}")
                 else:
                     raise Exception(f"HTTP Error for {url}: {e.status} - {e.message}")
 
             except aiohttp.ClientConnectionError as e:
-                logging.error(f"Connection Error for {url}: {e}")
+                config.logger.error(f"Connection Error for {url}: {e}")
                 raise ConnectionError(f"Connection Error for {url}: {e}")
             except Exception as e:
-                logging.error(f"An unexpected error occurred: {e}")
+                config.logger.error(f"An unexpected error occurred: {e}")
                 raise Exception(f"An unexpected error occurred: {e}")
 
 
