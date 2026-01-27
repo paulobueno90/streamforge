@@ -2517,7 +2517,7 @@
 </span><span id="__span-9-13"><a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a>            <span class="n">timeframe</span><span class="o">=</span><span class="s2">&quot;1m&quot;</span>
 </span><span id="__span-9-14"><a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a>        <span class="p">)</span>
 </span><span id="__span-9-15"><a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a>    <span class="p">)</span>
-</span><span id="__span-9-16"><a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a>    <span class="n">binance</span><span class="o">.</span><span class="n">register_emitter</span><span class="p">(</span><span class="n">sf</span><span class="o">.</span><span class="n">Logger</span><span class="p">(</span><span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;🟡 Binance&quot;</span><span class="p">))</span>
+</span><span id="__span-9-16"><a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a>
 </span><span id="__span-9-17"><a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a>
 </span><span id="__span-9-18"><a id="__codelineno-9-18" name="__codelineno-9-18" href="#__codelineno-9-18"></a>    <span class="c1"># OKX with its own logger</span>
 </span><span id="__span-9-19"><a id="__codelineno-9-19" name="__codelineno-9-19" href="#__codelineno-9-19"></a>    <span class="n">okx</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">OKXRunner</span><span class="p">(</span>
@@ -2527,7 +2527,7 @@
 </span><span id="__span-9-23"><a id="__codelineno-9-23" name="__codelineno-9-23" href="#__codelineno-9-23"></a>            <span class="n">timeframe</span><span class="o">=</span><span class="s2">&quot;1m&quot;</span>
 </span><span id="__span-9-24"><a id="__codelineno-9-24" name="__codelineno-9-24" href="#__codelineno-9-24"></a>        <span class="p">)</span>
 </span><span id="__span-9-25"><a id="__codelineno-9-25" name="__codelineno-9-25" href="#__codelineno-9-25"></a>    <span class="p">)</span>
-</span><span id="__span-9-26"><a id="__codelineno-9-26" name="__codelineno-9-26" href="#__codelineno-9-26"></a>    <span class="n">okx</span><span class="o">.</span><span class="n">register_emitter</span><span class="p">(</span><span class="n">sf</span><span class="o">.</span><span class="n">Logger</span><span class="p">(</span><span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;🔵 OKX&quot;</span><span class="p">))</span>
+</span><span id="__span-9-26"><a id="__codelineno-9-26" name="__codelineno-9-26" href="#__codelineno-9-26"></a>
 </span><span id="__span-9-27"><a id="__codelineno-9-27" name="__codelineno-9-27" href="#__codelineno-9-27"></a>
 </span><span id="__span-9-28"><a id="__codelineno-9-28" name="__codelineno-9-28" href="#__codelineno-9-28"></a>    <span class="c1"># Merge streams (emitters already attached)</span>
 </span><span id="__span-9-29"><a id="__codelineno-9-29" name="__codelineno-9-29" href="#__codelineno-9-29"></a>    <span class="k">async</span> <span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">merge_streams</span><span class="p">(</span><span class="n">binance</span><span class="p">,</span> <span class="n">okx</span><span class="p">):</span>

@@ -2049,7 +2049,7 @@
 </span><span id="__span-3-29"><a id="__codelineno-3-29" name="__codelineno-3-29" href="#__codelineno-3-29"></a>    <span class="n">runner</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">BinanceRunner</span><span class="p">(</span><span class="n">stream_input</span><span class="o">=</span><span class="n">stream</span><span class="p">)</span>
 </span><span id="__span-3-30"><a id="__codelineno-3-30" name="__codelineno-3-30" href="#__codelineno-3-30"></a>
 </span><span id="__span-3-31"><a id="__codelineno-3-31" name="__codelineno-3-31" href="#__codelineno-3-31"></a>    <span class="c1"># 3. Add emitter(s)</span>
-</span><span id="__span-3-32"><a id="__codelineno-3-32" name="__codelineno-3-32" href="#__codelineno-3-32"></a>    <span class="n">runner</span><span class="o">.</span><span class="n">register_emitter</span><span class="p">(</span><span class="n">sf</span><span class="o">.</span><span class="n">Logger</span><span class="p">(</span><span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;StreamForge&quot;</span><span class="p">))</span>
+</span><span id="__span-3-32"><a id="__codelineno-3-32" name="__codelineno-3-32" href="#__codelineno-3-32"></a>
 </span><span id="__span-3-33"><a id="__codelineno-3-33" name="__codelineno-3-33" href="#__codelineno-3-33"></a>
 </span><span id="__span-3-34"><a id="__codelineno-3-34" name="__codelineno-3-34" href="#__codelineno-3-34"></a>    <span class="c1"># 4. Run!</span>
 </span><span id="__span-3-35"><a id="__codelineno-3-35" name="__codelineno-3-35" href="#__codelineno-3-35"></a>    <span class="k">await</span> <span class="n">runner</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
@@ -2061,7 +2061,7 @@
 <h2 id="tips-tricks">Tips &amp; Tricks<a class="headerlink" href="#tips-tricks" title="Permanent link">&para;</a></h2>
 <h3 id="start-with-logger">Start with Logger<a class="headerlink" href="#start-with-logger" title="Permanent link">&para;</a></h3>
 <p>Always test with <code>Logger</code> first:</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">runner</span><span class="o">.</span><span class="n">register_emitter</span><span class="p">(</span><span class="n">sf</span><span class="o">.</span><span class="n">Logger</span><span class="p">(</span><span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;Test&quot;</span><span class="p">))</span>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>
 </span></code></pre></div>
 <h3 id="test-with-short-periods">Test with Short Periods<a class="headerlink" href="#test-with-short-periods" title="Permanent link">&para;</a></h3>
 <p>Use timeouts for testing:</p>
@@ -2069,7 +2069,7 @@
 </span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>
 </span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
 </span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>    <span class="n">runner</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">BinanceRunner</span><span class="p">(</span><span class="n">stream_input</span><span class="o">=</span><span class="n">stream</span><span class="p">)</span>
-</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>    <span class="n">runner</span><span class="o">.</span><span class="n">register_emitter</span><span class="p">(</span><span class="n">sf</span><span class="o">.</span><span class="n">Logger</span><span class="p">())</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>
 </span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>
 </span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>    <span class="c1"># Run for 30 seconds only</span>
 </span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>    <span class="k">try</span><span class="p">:</span>
