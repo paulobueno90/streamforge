@@ -59,6 +59,23 @@ klines_columns_dtypes = {
     }
 
 
+MARKET_TYPE_STRING_MAP = {
+        "DEFAULT": "SPOT",
+        "SPOT": "SPOT",
+        "FUTURES (USD-M)": "FUTURES (USD-M)",
+        "FUTURES (COIN-M)": "FUTURES (COIN-M)",
+        "USD-M": "FUTURES (USD-M)",
+        "COIN-M": "FUTURES (COIN-M)",
+    }
+
+
+MARKET_TYPE_PATH_MAP = {
+    "SPOT": "spot",
+    "FUTURES (USD-M)": "futures/cm",
+    "FUTURES (COIN-M)": "futures/um",
+}
+
+
 class BinanceBackfilling:
 
     _emitter_holder = EmitterHolder()
@@ -72,6 +89,7 @@ class BinanceBackfilling:
                  to_date: str = "now",
                  file_path: Optional[str] = None,
                  data_type: str = 'klines',
+                 market_type: str = 'DEFAULT',
                  transformer: Optional[Callable[[Dict[str,Any]], Dict[str, Any]]] = None
                  ):
 
@@ -80,17 +98,25 @@ class BinanceBackfilling:
         self.timeframe = timeframe
         self.from_date = from_date
         self.to_date = to_date
-        self.symbol_type = "spot"
+        self.market_type = market_type
+        self.symbol_type = self._get_symbol_type()
         self.data_type = data_type
-
+        
         self.file_path = self._file_name() if file_path is None else file_path
 
         self.transformer = transformer
 
+
+    def _get_symbol_type(self):
+        market_type_string = MARKET_TYPE_STRING_MAP.get(self.market_type, "SPOT")
+        return MARKET_TYPE_PATH_MAP.get(market_type_string, "spot")
+
     def _file_name(self):
+
+        market_type_string = MARKET_TYPE_STRING_MAP.get(self.market_type, "SPOT").lower().replace(" ", "_")
         today_string = datetime.now(timezone.utc).strftime("%Y-%m-%d")
         end_date_string = today_string if ((self.to_date == "now") or (self.to_date is None)) else self.to_date
-        file_name = f"Binance-{self.symbol.replace('/', '')}-{self.timeframe}-{self.from_date}_{end_date_string}.csv"
+        file_name = f"Binance-{self.symbol.replace('/', '')}-{market_type_string}-{self.timeframe}-{self.from_date}_{end_date_string}.csv"
         return file_name
 
     def set_transformer(self, transformer_func : Callable[[Dict[str,Any]], Dict[str, Any]], inplace: bool = False):
