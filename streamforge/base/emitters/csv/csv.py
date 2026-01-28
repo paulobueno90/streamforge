@@ -62,12 +62,13 @@ class CSVEmitter(DataEmitter):
             return
 
         try:
-            batch = (self.transform(data=data) for data in data_list)
+            batch = (self.transform(data) for data in data_list)
             df = pd.DataFrame(batch)
 
             df.to_csv(self.file_path, mode="a", header=not Path(self.file_path).exists(), index=False)
             config.logger.info(f"Emitted Data | Emitter: {self.name} | File: {self.file_path} | {len(df)} rows | First Row: {df.iloc[0].to_dict()}")
         except Exception as e:
+            raise e
             config.logger.error(f"Error inserting bulk data: {e}")
 
     @singledispatchmethod
