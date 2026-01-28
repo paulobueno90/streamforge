@@ -332,9 +332,7 @@ class BinanceBackfilling:
 
         if self._emitter_holder.empty:
             csv_emitter = CSVEmitter(
-                source="Binance",
-                symbol=self.symbol,
-                timeframe=self.timeframe,
+                file_path=self.file_path,
                 transformer_function=self.transformer
             )
             self.register_emitter(emitter=csv_emitter)
