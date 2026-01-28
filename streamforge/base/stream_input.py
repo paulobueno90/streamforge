@@ -44,11 +44,12 @@ class DataInput:
         The 'type' field determines which processor will handle the data.
         Supported types vary by exchange but commonly include:
         - 'kline', 'candle', 'ohlc': OHLC/candlestick data
-        - 'trade': Individual trades
-        - 'depth': Order book depth
-        - 'ticker': Price ticker updates
+        - 'trade': Individual trades (not implemented yet)
+        - 'depth': Order book depth (not implemented yet)
+        - 'ticker': Price ticker updates (not implemented yet)
     """
     type: str
     symbols: list
     timeframe: Optional[str]
+    market_type: Optional[str] = 'SPOT'
     aggregate_list: Optional[List[str]] = field(default_factory=list)
