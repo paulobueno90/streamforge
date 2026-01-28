@@ -51,5 +51,5 @@ class DataInput:
     type: str
     symbols: list
     timeframe: Optional[str]
-    market_type: Optional[str] = 'SPOT'
+    market_type: Optional[str] = 'DEFAULT'
     aggregate_list: Optional[List[str]] = field(default_factory=list)

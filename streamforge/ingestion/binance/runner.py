@@ -5,6 +5,7 @@ This module provides the BinanceRunner class for streaming real-time
 market data from Binance exchange.
 """
 
+from typing import Optional
 from streamforge.base.runner import Runner
 from streamforge.ingestion.binance.ws.ws import BinanceWS
 from streamforge.ingestion.binance.processors.processor import BinanceProcessor
@@ -28,7 +29,7 @@ class BinanceRunner(Runner):
         emit_warmup: Whether to emit warmup data to outputs (default: False)
         emit_only_closed_candles: Only emit completed candles (default: True)
         verbose: Enable verbose logging (default: False)
-        
+        market_type: Market type (default: "SPOT")
     Examples:
         Basic usage:
         >>> import asyncio
@@ -79,16 +80,17 @@ class BinanceRunner(Runner):
             emit_warmup=False,
             emit_only_closed_candles=True,
             verbose=False,
-
+            market_type: Optional[str] = 'SPOT',
     ):
         super().__init__(
             websocket_client=websocket_client,
             processor_class=processor_class,
-            source="Binance",
+            source=source,
             active_warmup=active_warmup,
             emit_warmup=emit_warmup,
             emit_only_closed_candles=emit_only_closed_candles,
             verbose=verbose,
+            market_type=market_type,
         )
 
         self.set_stream_input(ws_input=stream_input)

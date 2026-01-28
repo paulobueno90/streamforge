@@ -265,10 +265,13 @@ class BinanceBackfilling:
         return monthly_urls + daily_urls
 
     def _read_csv_file(self, file_path: str):
+
+        skiprows = None if self.symbol_type == "spot" else 1
         dataframe = pd.read_csv(file_path,
                            names=klines_column_names,
                            dtype=klines_columns_dtypes,
-                           engine='pyarrow')
+                           engine='pyarrow',
+                           skiprows=skiprows)
 
         for _, row in dataframe.iterrows():
             yield row.to_dict()
