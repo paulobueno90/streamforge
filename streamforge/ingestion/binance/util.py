@@ -1,8 +1,5 @@
 import datetime as dt
 from datetime import datetime
-from streamforge.ingestion.binance.api.api import BinanceAPI
-
-import asyncio
 
 DATE_STRING_FORMATS = ["%Y-%m-%d %H:%M:%S", "%Y-%m-%d %H:%M", "%Y-%m-%d"]
 SECONDS_IN_A_DAY = 1440 * 60
@@ -17,6 +14,23 @@ AGG_TIMESTAMP_MAP = {
     "1h": 60 * 60,
     "4h": 240 * 60,
     "1d": 1444 * 60
+}
+
+MARKET_TYPE_STRING_MAP = {
+        "DEFAULT": "SPOT",
+        "SPOT": "SPOT",
+        "FUTURES (USD-M)": "FUTURES (USD-M)",
+        "FUTURES (COIN-M)": "FUTURES (COIN-M)",
+        "USD-M": "FUTURES (USD-M)",
+        "COIN-M": "FUTURES (COIN-M)",
+    }
+
+
+MARKET_TYPE_PATH_MAP = {
+    "SPOT": "spot",
+    "FUTURES (USD-M)": "futures/um",  
+    "FUTURES (COIN-M)": "futures/cm",  
+    "DEFAULT": "spot",
 }
 
 

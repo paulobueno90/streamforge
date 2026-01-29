@@ -21,6 +21,7 @@ from streamforge.ingestion.binance.api.api import BinanceAPI
 from streamforge.base.normalize.ohlc.models.timeframes import TIMEFRAME_CLASS_MAP
 from streamforge.base.normalize.ohlc.models.candle import Kline
 from streamforge.base.emitters.csv.csv import CSVEmitter
+from streamforge.ingestion.binance.util import MARKET_TYPE_STRING_MAP, MARKET_TYPE_PATH_MAP
 
 
 
@@ -59,27 +60,12 @@ klines_columns_dtypes = {
     }
 
 
-MARKET_TYPE_STRING_MAP = {
-        "DEFAULT": "SPOT",
-        "SPOT": "SPOT",
-        "FUTURES (USD-M)": "FUTURES (USD-M)",
-        "FUTURES (COIN-M)": "FUTURES (COIN-M)",
-        "USD-M": "FUTURES (USD-M)",
-        "COIN-M": "FUTURES (COIN-M)",
-    }
 
-
-MARKET_TYPE_PATH_MAP = {
-    "SPOT": "spot",
-    "FUTURES (USD-M)": "futures/cm",
-    "FUTURES (COIN-M)": "futures/um",
-}
 
 
 class BinanceBackfilling:
 
     _emitter_holder = EmitterHolder()
-    _api = BinanceAPI()
     _normalizer = KlineNormalizer()
 
     def __init__(self,
@@ -105,6 +91,7 @@ class BinanceBackfilling:
         self.file_path = self._file_name() if file_path is None else file_path
 
         self.transformer = transformer
+        self._api = BinanceAPI(market_type=self.market_type)
 
 
     def _get_symbol_type(self):
