@@ -21,10 +21,11 @@ KRAKEN_API_INFO_URL = 'https://api.kraken.com/0/public/AssetPairs'
 class KrakenAPI(BaseCandleAPI):
 
     def __init__(self,
-                 base_url: str = KRAKEN_API_BASE_URL,
-                 api_limiter: AsyncLimiter = KRAKEN_API_LIMITER,
                  api_call_limit: int = 1000
                  ):
+
+        api_limiter = KRAKEN_API_LIMITER
+        base_url = KRAKEN_API_BASE_URL
 
         super().__init__(base_url=base_url, api_limiter=api_limiter, api_call_limit=api_call_limit)
 

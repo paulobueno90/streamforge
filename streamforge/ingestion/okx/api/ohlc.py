@@ -25,10 +25,11 @@ def floor_date_timestamp(timestamp: int):
 class OkxCandleApi(BaseCandleAPI):
 
     def __init__(self,
-                 base_url: str = OKX_BASE_CANDLE_URL,
-                 api_limiter: AsyncLimiter = OKX_API_LIMITER,
                  api_call_limit: int = 100
                  ):
+
+        api_limiter = OKX_API_LIMITER
+        base_url = OKX_BASE_CANDLE_URL
 
         super().__init__(base_url=base_url, api_limiter=api_limiter, api_call_limit=api_call_limit)
 
