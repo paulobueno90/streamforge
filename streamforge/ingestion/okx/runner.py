@@ -68,4 +68,10 @@ class OKXRunner(Runner):
             verbose=verbose,
         )
 
-        self.set_stream_input(ws_input=stream_input)
+        self.set_stream_input(ws_input=self._adjust_input(stream_input=stream_input))
+
+    def _adjust_input(self, stream_input: DataInput):
+        if stream_input.type in ["kline","ohlc", "ohlcv"]:
+            stream_input.type = "candle"
+
+        return stream_input
