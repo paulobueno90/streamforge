@@ -40,6 +40,9 @@ class DefaultLogger:
         # Clear existing handlers to ensure clean setup
         self._logger.handlers.clear()
         
+        # Prevent propagation to root logger to avoid duplicate logs
+        self._logger.propagate = False
+        
         # Add console handler if enabled
         if console:
             console_handler = logging.StreamHandler()
