@@ -13,6 +13,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Comprehensive test suite
 - Performance optimizations
 
+## [0.1.2] - 2026-02-04
+- Added Binance futures support (klines)
+- Small fixes for okx
+- Fix on duplicated log
+- Small changes in examples
+
 ## [0.1.1] - 2026-01-20
 
 ### Fixed
