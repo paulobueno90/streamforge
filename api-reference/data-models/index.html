@@ -1949,7 +1949,7 @@ and converted to the standard format.</p>
   </span>
 
 <a href="#streamforge.base.stream_input.DataInput" class="headerlink" title="Permanent link">&para;</a></h2>
-<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">DataInput</span><span class="p">(</span><span class="nb">type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">symbols</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">timeframe</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">aggregate_list</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">())</span>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">DataInput</span><span class="p">(</span><span class="nb">type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">symbols</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">timeframe</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">market_type</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;DEFAULT&#39;</span><span class="p">,</span> <span class="n">aggregate_list</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">())</span>
 </span></code></pre></div>
 
     <div class="doc doc-contents first">
@@ -2043,9 +2043,9 @@ including the symbols, timeframe, and any aggregation requirements.</p>
   <p>The 'type' field determines which processor will handle the data.
 Supported types vary by exchange but commonly include:
 - 'kline', 'candle', 'ohlc': OHLC/candlestick data
-- 'trade': Individual trades
-- 'depth': Order book depth
-- 'ticker': Price ticker updates</p>
+- 'trade': Individual trades (not implemented yet)
+- 'depth': Order book depth (not implemented yet)
+- 'ticker': Price ticker updates (not implemented yet)</p>
 </details>
 
 

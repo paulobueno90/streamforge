@@ -1584,7 +1584,7 @@
 
 
 <a href="#streamforge.ingestion.binance.runner.BinanceRunner" class="headerlink" title="Permanent link">&para;</a></h2>
-<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">BinanceRunner</span><span class="p">(</span><span class="n">stream_input</span><span class="p">:</span> <span class="n">DataInput</span><span class="p">,</span> <span class="n">websocket_client</span><span class="o">=</span><span class="n">BinanceWS</span><span class="p">,</span> <span class="n">processor_class</span><span class="o">=</span><span class="n">BinanceProcessor</span><span class="p">,</span> <span class="n">source</span><span class="o">=</span><span class="s1">&#39;Binance&#39;</span><span class="p">,</span> <span class="n">active_warmup</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">emit_warmup</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">emit_only_closed_candles</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">BinanceRunner</span><span class="p">(</span><span class="n">stream_input</span><span class="p">:</span> <span class="n">DataInput</span><span class="p">,</span> <span class="n">websocket_client</span><span class="o">=</span><span class="n">BinanceWS</span><span class="p">,</span> <span class="n">processor_class</span><span class="o">=</span><span class="n">BinanceProcessor</span><span class="p">,</span> <span class="n">source</span><span class="o">=</span><span class="s1">&#39;Binance&#39;</span><span class="p">,</span> <span class="n">active_warmup</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">emit_warmup</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">emit_only_closed_candles</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">market_type</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;SPOT&#39;</span><span class="p">)</span>
 </span></code></pre></div>
 
     <div class="doc doc-contents first">
@@ -1736,46 +1736,59 @@ timeframe aggregation and various output formats.</p>
                   <code>False</code>
             </td>
           </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>market_type</code>
+            </td>
+            <td>
+                  <code><span title="typing.Optional">Optional</span>[<span title="str">str</span>]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Market type (default: "SPOT")</p>
+              </div>
+            </td>
+            <td>
+                  <code>&#39;SPOT&#39;</code>
+            </td>
+          </tr>
       </tbody>
     </table>
-
-
-<p><span class="doc-section-title">Examples:</span></p>
-    <p>Basic usage:</p>
-    <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">streamforge.ingestion.binance.runner</span><span class="w"> </span><span class="kn">import</span> <span class="n">BinanceRunner</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">streamforge.base.stream_input</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataInput</span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">streamforge.base.emitters</span><span class="w"> </span><span class="kn">import</span> <span class="n">CSVEmitter</span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="gp">&gt;&gt;&gt; </span>
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="gp">&gt;&gt;&gt; </span><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="gp">... </span>    <span class="c1"># Configure stream</span>
-</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="gp">... </span>    <span class="n">stream</span> <span class="o">=</span> <span class="n">DataInput</span><span class="p">(</span>
-</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="gp">... </span>        <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;kline&quot;</span><span class="p">,</span>
-</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="gp">... </span>        <span class="n">symbols</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;BTCUSDT&quot;</span><span class="p">],</span>
-</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="gp">... </span>        <span class="n">timeframe</span><span class="o">=</span><span class="s2">&quot;1m&quot;</span>
-</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="gp">... </span>    <span class="p">)</span>
-</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="gp">... </span>    
-</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="gp">... </span>    <span class="c1"># Create runner</span>
-</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="gp">... </span>    <span class="n">runner</span> <span class="o">=</span> <span class="n">BinanceRunner</span><span class="p">(</span><span class="n">stream_input</span><span class="o">=</span><span class="n">stream</span><span class="p">)</span>
-</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="gp">... </span>    
-</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="gp">... </span>    <span class="c1"># Add CSV output</span>
-</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="gp">... </span>    <span class="n">runner</span><span class="o">.</span><span class="n">register_emitter</span><span class="p">(</span><span class="n">CSVEmitter</span><span class="p">(</span><span class="n">file_path</span><span class="o">=</span><span class="s2">&quot;btc_1m.csv&quot;</span><span class="p">))</span>
-</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="gp">... </span>    
-</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a><span class="gp">... </span>    <span class="c1"># Start streaming</span>
-</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="gp">... </span>    <span class="k">await</span> <span class="n">runner</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
-</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a><span class="gp">&gt;&gt;&gt; </span>
-</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
-</span></code></pre></div>
-    <p>With aggregation:</p>
-    <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">stream</span> <span class="o">=</span> <span class="n">DataInput</span><span class="p">(</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">... </span>    <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;kline&quot;</span><span class="p">,</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="gp">... </span>    <span class="n">symbols</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;BTCUSDT&quot;</span><span class="p">,</span> <span class="s2">&quot;ETHUSDT&quot;</span><span class="p">],</span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="gp">... </span>    <span class="n">timeframe</span><span class="o">=</span><span class="s2">&quot;1m&quot;</span><span class="p">,</span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="gp">... </span>    <span class="n">aggregate_list</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;5m&quot;</span><span class="p">,</span> <span class="s2">&quot;15m&quot;</span><span class="p">,</span> <span class="s2">&quot;1h&quot;</span><span class="p">]</span>
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="gp">... </span><span class="p">)</span>
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">runner</span> <span class="o">=</span> <span class="n">BinanceRunner</span><span class="p">(</span><span class="n">stream_input</span><span class="o">=</span><span class="n">stream</span><span class="p">,</span> <span class="n">active_warmup</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="gp">&gt;&gt;&gt; </span><span class="k">await</span> <span class="n">runner</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
-</span></code></pre></div>
+        <p>Examples:
+    Basic usage:
+    &gt;&gt;&gt; import asyncio
+    &gt;&gt;&gt; from streamforge.ingestion.binance.runner import BinanceRunner
+    &gt;&gt;&gt; from streamforge.base.stream_input import DataInput
+    &gt;&gt;&gt; from streamforge.base.emitters import CSVEmitter
+    &gt;&gt;&gt; 
+    &gt;&gt;&gt; async def main():
+    ...     # Configure stream
+    ...     stream = DataInput(
+    ...         type="kline",
+    ...         symbols=["BTCUSDT"],
+    ...         timeframe="1m"
+    ...     )
+    ...   <br />
+    ...     # Create runner
+    ...     runner = BinanceRunner(stream_input=stream)
+    ...   <br />
+    ...     # Add CSV output
+    ...     runner.register_emitter(CSVEmitter(file_path="btc_1m.csv"))
+    ...   <br />
+    ...     # Start streaming
+    ...     await runner.run()
+    &gt;&gt;&gt; 
+    &gt;&gt;&gt; asyncio.run(main())</p>
+<div class="language-text highlight"><pre><span></span><code>With aggregation:
+&gt;&gt;&gt; stream = DataInput(
+...     type=&quot;kline&quot;,
+...     symbols=[&quot;BTCUSDT&quot;, &quot;ETHUSDT&quot;],
+...     timeframe=&quot;1m&quot;,
+...     aggregate_list=[&quot;5m&quot;, &quot;15m&quot;, &quot;1h&quot;]
+... )
+&gt;&gt;&gt; runner = BinanceRunner(stream_input=stream, active_warmup=True)
+&gt;&gt;&gt; await runner.run()
+</code></pre></div>
 
 
 <details class="note" open>
