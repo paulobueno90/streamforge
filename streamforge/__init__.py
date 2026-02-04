@@ -49,6 +49,9 @@ from .base.normalize.ohlc.models.candle import Kline
 from .ingestion.binance.backfilling import BinanceBackfilling
 from .ingestion.okx.backfilling import OkxBackfilling
 
+# Merge stream imports
+from .merge_stream import merge_streams
+
 # Logger and config imports
 from .base.config import config
 from .base.logger import DefaultLogger, SilentLogger
@@ -87,4 +90,7 @@ __all__ = [
     # Metadata
     "__version__",
     "__author__",
+
+    # Merge stream
+    "merge_streams",
 ]

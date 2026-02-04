@@ -180,6 +180,7 @@ async def example4_price_comparison():
     
     # Store latest prices
     latest_prices = {}
+    latest_timestamps = {}
     
     binance_runner = sf.BinanceRunner(
         stream_input=sf.DataInput(
@@ -202,23 +203,26 @@ async def example4_price_comparison():
     async for data in merge_streams(binance_runner, okx_runner):
         # Update latest price
         latest_prices[data.source] = data.close
+        latest_timestamps[data.source] = data.end_ts
         
         # Compare when we have both
         if len(latest_prices) >= 2:
             binance_price = latest_prices.get("Binance", 0)
             okx_price = latest_prices.get("OKX", 0)
+            binance_timestamp = latest_timestamps.get("Binance", 0)
+            okx_timestamp = latest_timestamps.get("OKX", 0)
             
-            if binance_price and okx_price:
-                diff = binance_price - okx_price
-                diff_pct = (diff / binance_price) * 100
+            if binance_price and okx_price and binance_timestamp and okx_timestamp:
+                if binance_timestamp == okx_timestamp:
                 
-                print(f"\n💰 Price Comparison:")
-                print(f"   Binance: ${binance_price:,.2f}")
-                print(f"   OKX:     ${okx_price:,.2f}")
-                print(f"   Diff:    ${diff:+.2f} ({diff_pct:+.4f}%)")
-                
-                if abs(diff_pct) > 0.1:
-                    print(f"   🚨 ARBITRAGE OPPORTUNITY!")
+                    diff = binance_price - okx_price
+                    diff_pct = (diff / binance_price) * 100
+                    
+                    print(f"\n Price Comparison:")
+                    print(f"   Binance: ${binance_price:,.2f}")
+                    print(f"   OKX:     ${okx_price:,.2f}")
+                    print(f"   Diff:    ${diff:+.2f} ({diff_pct:+.4f}%)")
+
 
 
 async def example5_multi_symbol_multi_exchange():

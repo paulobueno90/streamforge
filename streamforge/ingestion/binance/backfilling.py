@@ -21,6 +21,7 @@ from streamforge.ingestion.binance.api.api import BinanceAPI
 from streamforge.base.normalize.ohlc.models.timeframes import TIMEFRAME_CLASS_MAP
 from streamforge.base.normalize.ohlc.models.candle import Kline
 from streamforge.base.emitters.csv.csv import CSVEmitter
+from streamforge.ingestion.binance.util import MARKET_TYPE_STRING_MAP, MARKET_TYPE_PATH_MAP
 
 
 
@@ -59,10 +60,12 @@ klines_columns_dtypes = {
     }
 
 
+
+
+
 class BinanceBackfilling:
 
     _emitter_holder = EmitterHolder()
-    _api = BinanceAPI()
     _normalizer = KlineNormalizer()
 
     def __init__(self,
@@ -72,6 +75,7 @@ class BinanceBackfilling:
                  to_date: str = "now",
                  file_path: Optional[str] = None,
                  data_type: str = 'klines',
+                 market_type: str = 'DEFAULT',
                  transformer: Optional[Callable[[Dict[str,Any]], Dict[str, Any]]] = None
                  ):
 
@@ -80,17 +84,26 @@ class BinanceBackfilling:
         self.timeframe = timeframe
         self.from_date = from_date
         self.to_date = to_date
-        self.symbol_type = "spot"
+        self.market_type = market_type
+        self.symbol_type = self._get_symbol_type()
         self.data_type = data_type
-
+        
         self.file_path = self._file_name() if file_path is None else file_path
 
         self.transformer = transformer
+        self._api = BinanceAPI(market_type=self.market_type)
+
+
+    def _get_symbol_type(self):
+        market_type_string = MARKET_TYPE_STRING_MAP.get(self.market_type, "SPOT")
+        return MARKET_TYPE_PATH_MAP.get(market_type_string, "spot")
 
     def _file_name(self):
+
+        market_type_string = MARKET_TYPE_STRING_MAP.get(self.market_type, "SPOT").lower().replace(" ", "_")
         today_string = datetime.now(timezone.utc).strftime("%Y-%m-%d")
         end_date_string = today_string if ((self.to_date == "now") or (self.to_date is None)) else self.to_date
-        file_name = f"Binance-{self.symbol.replace('/', '')}-{self.timeframe}-{self.from_date}_{end_date_string}.csv"
+        file_name = f"Binance-{self.symbol.replace('/', '')}-{market_type_string}-{self.timeframe}-{self.from_date}_{end_date_string}.csv"
         return file_name
 
     def set_transformer(self, transformer_func : Callable[[Dict[str,Any]], Dict[str, Any]], inplace: bool = False):
@@ -239,10 +252,13 @@ class BinanceBackfilling:
         return monthly_urls + daily_urls
 
     def _read_csv_file(self, file_path: str):
+
+        skiprows = None if self.symbol_type == "spot" else 1
         dataframe = pd.read_csv(file_path,
                            names=klines_column_names,
                            dtype=klines_columns_dtypes,
-                           engine='pyarrow')
+                           engine='pyarrow',
+                           skiprows=skiprows)
 
         for _, row in dataframe.iterrows():
             yield row.to_dict()
@@ -306,9 +322,7 @@ class BinanceBackfilling:
 
         if self._emitter_holder.empty:
             csv_emitter = CSVEmitter(
-                source="Binance",
-                symbol=self.symbol,
-                timeframe=self.timeframe,
+                file_path=self.file_path,
                 transformer_function=self.transformer
             )
             self.register_emitter(emitter=csv_emitter)

@@ -34,7 +34,7 @@ async def main():
     
     # Note: Internal logging is handled by sf.config.logger
     # You can customize it: sf.config.logger = your_logger
-    # Or create a custom emitter to log data items
+    # Or stream and log yourself
     
     # Start streaming (runs forever until Ctrl+C)
     await runner.run()

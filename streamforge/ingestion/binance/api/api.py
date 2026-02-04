@@ -2,7 +2,6 @@ import sys
 import asyncio
 import aiohttp
 
-from aiolimiter import AsyncLimiter
 from datetime import datetime, timezone
 from .error import BinanceAPIBanError
 
@@ -10,20 +9,25 @@ from .error import BinanceAPIBanError
 from streamforge.base.normalize.ohlc.models.timeframes import BaseTimeframe
 from streamforge.base.api import BaseCandleAPI
 from streamforge.base.config import config
+from streamforge.ingestion.binance.api.util import get_api_limiter, get_api_base_url
 
 
-BINANCE_API_KLINE_BASE_URL = 'https://api.binance.com/api/v3/klines?symbol={}&interval={}&limit={}&startTime={}&endTime={}'
-BINANCE_API_LIMITER = AsyncLimiter(1000, 60)
+KLINE_BASE_ENDPOINT = '/klines?symbol={}&interval={}&limit={}&startTime={}&endTime={}'
+
+
+
 
 
 class BinanceAPI(BaseCandleAPI):
     def __init__(self,
-                 base_url: str = BINANCE_API_KLINE_BASE_URL,
-                 api_limiter: AsyncLimiter = BINANCE_API_LIMITER,
+                 market_type: str = "DEFAULT",
                  api_call_limit: int = 1000
                  ):
 
-        super().__init__(base_url=base_url, api_limiter=api_limiter, api_call_limit=api_call_limit)
+        api_limiter = get_api_limiter(market_type=market_type)
+        self.binance_kline_base_endpoint = get_api_base_url(market_type=market_type) + KLINE_BASE_ENDPOINT
+
+        super().__init__(base_url=self.binance_kline_base_endpoint, api_limiter=api_limiter, api_call_limit=api_call_limit)
 
     def _process_warmup_urls(self, symbol: str, timeframe: BaseTimeframe):
         urls = []
@@ -33,7 +37,7 @@ class BinanceAPI(BaseCandleAPI):
         n_datapoints = (utc_timestamp_now - start_timestamp) // timeframe.offset
 
         if n_datapoints <= self.limit:
-            url = BINANCE_API_KLINE_BASE_URL.format(
+            url = self.binance_kline_base_endpoint.format(
                 symbol.upper(),
                 timeframe.string_tf,
                 self.limit,
@@ -44,7 +48,7 @@ class BinanceAPI(BaseCandleAPI):
 
         else:
             middle_timestamp = start_timestamp + (1000 * 60)
-            first_url = BINANCE_API_KLINE_BASE_URL.format(
+            first_url = self.binance_kline_base_endpoint.format(
                 symbol.upper(),
                 timeframe.string_tf,
                 self.limit,
@@ -52,7 +56,7 @@ class BinanceAPI(BaseCandleAPI):
                 middle_timestamp * 1000
             )
 
-            second_url = BINANCE_API_KLINE_BASE_URL.format(
+            second_url = self.binance_kline_base_endpoint.format(
                 symbol.upper(),
                 timeframe.string_tf,
                 self.limit,

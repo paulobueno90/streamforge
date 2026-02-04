@@ -29,6 +29,21 @@ class WebsocketParameters:
 
     }
 
+    MARKET_TYPE_STRING_MAP = {
+        "DEFAULT": "SPOT",
+        "SPOT": "SPOT",
+        "FUTURES (USD-M)": "FUTURES (USD-M)",
+        "FUTURES (COIN-M)": "FUTURES (COIN-M)",
+        "USD-M": "FUTURES (USD-M)",
+        "COIN-M": "FUTURES (COIN-M)",
+    }
+
+    MARKET_TYPE_URL_MAP = {
+        "SPOT": "wss://stream.binance.com:9443/stream",
+        "FUTURES (USD-M)": "wss://fstream.binance.com/stream",
+        "FUTURES (COIN-M)": "wss://dstream.binance.com/stream",
+    }
+
     @classmethod
     def _check_input(cls, stream_input):
         if not stream_input.type:
@@ -60,6 +75,12 @@ class WebsocketParameters:
             "id": 999
         }
 
+    @classmethod
+    def get_url(cls, market_type: str):
+        market_type_string = cls.MARKET_TYPE_STRING_MAP.get(market_type, "DEFAULT")
+        return cls.MARKET_TYPE_URL_MAP.get(market_type_string, "wss://stream.binance.com:9443/stream")
+
+
 
 class SubscribeError(Exception):
     pass
@@ -73,10 +94,12 @@ class BinanceWS(WebsocketHandler):
 
                  normalizer_class: GeneralNormalizers = binance_normalizer,
                  processor_class: GeneralProcessor = BinanceProcessor(),
-                 websocket_url: str = "wss://stream.binance.com:9443/stream",
                  source: str = "Binance",
+                 market_type: Optional[str] = 'SPOT',
 
                  ):
+
+        websocket_url = WebsocketParameters.get_url(market_type=market_type)
 
         super().__init__(
             source=source,

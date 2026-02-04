@@ -60,6 +60,7 @@ class Runner(ABC):
             emit_warmup=False,
             emit_only_closed_candles=True,
             verbose=False,
+            market_type: Optional[str] = 'SPOT',
 
 
     ):
@@ -69,6 +70,7 @@ class Runner(ABC):
         self._active_warmup = active_warmup
         self._emit_warmup = emit_warmup
         self._emit_only_closed_candles = emit_only_closed_candles
+        self._market_type = market_type
 
     def set_stream_input(self, ws_input: DataInput):
         """
