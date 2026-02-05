@@ -1972,13 +1972,12 @@
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>python<span class="w"> </span>my_first_stream.py
 </span></code></pre></div>
 <h3 id="step-3-see-the-magic">Step 3: See the Magic!<a class="headerlink" href="#step-3-see-the-magic" title="Permanent link">&para;</a></h3>
-<p>You'll see live Bitcoin data streaming to your console:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>2025-10-14 16:21:32 - INFO - Aggregation Deactivated
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>2025-10-14 16:21:33 - INFO - Binance    | Subscribed Successful to params: {&#39;method&#39;: &#39;SUBSCRIBE&#39;, &#39;params&#39;: [&#39;btcusdt@kline_1m&#39;], &#39;id&#39;: 999} | Websocket Input: DataInput(type=&#39;kline&#39;, symbols=[&#39;BTCUSDT&#39;], timeframe=&#39;1m&#39;, aggregate_list=[]).
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>2025-10-14 16:21:33 - INFO - Binance    | Websocket Connection established successfully!
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>2025-10-14 16:22:00 - INFO - Binance    | Data Received: source=&#39;binance&#39; symbol=&#39;BTCUSDT&#39; timeframe=&#39;1m&#39; open_ts=1760469660 end_ts=1760469719 open=113329.98 high=113411.45 low=113329.98 close=113383.03 volume=11.95122 quote_volume=1355147.9103971 vwap=None n_trades=5228 is_closed=True
-</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>2025-10-14 16:22:00 - INFO - Binance | Received Data | source=&#39;binance&#39; symbol=&#39;BTCUSDT&#39; timeframe=&#39;1m&#39; open_ts=1760469660 end_ts=1760469719 open=113329.98 high=113411.45 low=113329.98 close=113383.03 volume=11.95122 quote_volume=1355147.9103971 vwap=None n_trades=5228 is_closed=True
-</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>...
+<p>You'll see live Bitcoin data streaming to your console (Note: Logging must be enabled first with <code>sf.config.set_console_only()</code>):</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>2025-10-14 16:21:32 - streamforge - INFO - Aggregation Deactivated
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>2025-10-14 16:21:33 - streamforge - INFO - Binance    | Subscribed Successful to params: {&#39;method&#39;: &#39;SUBSCRIBE&#39;, &#39;params&#39;: [&#39;btcusdt@kline_1m&#39;], &#39;id&#39;: 999} | Websocket Input: DataInput(type=&#39;kline&#39;, symbols=[&#39;BTCUSDT&#39;], timeframe=&#39;1m&#39;, aggregate_list=[]).
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>2025-10-14 16:21:33 - streamforge - INFO - Binance    | Websocket Connection established successfully!
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>2025-10-14 16:22:00 - streamforge - INFO - Binance    | Data Received: source=&#39;binance&#39; symbol=&#39;BTCUSDT&#39; timeframe=&#39;1m&#39; open_ts=1760469660 end_ts=1760469719 open=113329.98 high=113411.45 low=113329.98 close=113383.03 volume=11.95122 quote_volume=1355147.9103971 vwap=None n_trades=5228 is_closed=True
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>...
 </span></code></pre></div>
 <p>Press <code>Ctrl+C</code> to stop.</p>
 <div class="admonition success">
