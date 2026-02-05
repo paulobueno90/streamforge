@@ -17,10 +17,9 @@ await runner.run()
 You can register **multiple emitters** - data flows to all of them:
 
 ```python
-runner.register_emitter(logger)
 runner.register_emitter(csv_emitter)
 runner.register_emitter(postgres_emitter)
-# Data goes to all 3!
+# Data goes to all 2!
 ```
 
 ---
@@ -48,28 +47,6 @@ sf.config.logger = my_logger
 
 # Or make it silent
 sf.config.set_silent()
-```
-
-### Logging Data Items
-
-If you need to log data items (not just internal status), create a custom emitter:
-
-```python
-from streamforge.base.emitters.base import DataEmitter
-
-class DataLogger(DataEmitter):
-    async def emit(self, data):
-        sf.config.logger.info(f"Data: {data}")
-    
-    async def connect(self):
-        pass
-    
-    async def close(self):
-        pass
-
-# Use it
-
-```
 
 ---
 
@@ -493,16 +470,16 @@ asyncio.run(main())
 
 ## Emitter Comparison
 
-| Feature | Logger | CSV | PostgreSQL | Kafka |
-|---------|--------|-----|------------|-------|
-| **Persistence** | ❌ | ✓ File | ✓ Database | ✓ Stream |
-| **Queryable** | ❌ | Limited | ✓✓ | ❌ |
-| **Real-time** | ✓ | ❌ | ⚠️ | ✓✓ |
-| **Scalability** | N/A | ❌ | ✓ | ✓✓ |
-| **Debugging** | ✓✓ | ⚠️ | ⚠️ | ❌ |
-| **Production** | ❌ | ⚠️ | ✓✓ | ✓✓ |
-| **Complexity** | ⭐ | ⭐ | ⭐⭐⭐ | ⭐⭐⭐ |
-| **Setup** | None | None | Database | Kafka cluster |
+| Feature | CSV | PostgreSQL | Kafka |
+|---------|-----|------------|-------|
+| **Persistence** | ✓ File | ✓ Database | ✓ Stream |
+| **Queryable** | Limited | ✓✓ | ❌ |
+| **Real-time** | ❌ | ⚠️ | ✓✓ |
+| **Scalability** | ❌ | ✓ | ✓✓ |
+| **Debugging** | ⚠️ | ⚠️ | ❌ |
+| **Production** | ⚠️ | ✓✓ | ✓✓ |
+| **Complexity** | ⭐ | ⭐⭐⭐ | ⭐⭐⭐ |
+| **Setup** | None | Database | Kafka cluster |
 
 **Legend:** ✓✓ Excellent | ✓ Good | ⚠️ Possible | ❌ Not suitable
 
@@ -544,10 +521,9 @@ asyncio.run(main())
 
 ### Use Cases
 
-- **Logger + PostgreSQL** - Monitor while saving
 - **CSV + PostgreSQL** - Backup + database
 - **PostgreSQL + Kafka** - Store + stream
-- **All 4** - Complete pipeline
+- **All 3** - Complete pipeline
 
 ---
 
@@ -619,7 +595,6 @@ runner.register_emitter(webhook)
 
 ### 1. Choose the Right Emitter
 
-- **Development** → Logger
 - **Simple storage** → CSV
 - **Production** → PostgreSQL
 - **Real-time processing** → Kafka

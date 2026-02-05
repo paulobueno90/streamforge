@@ -139,7 +139,7 @@ print(sf.KrakenRunner)
 print(sf.OKXRunner)
 
 # Emitters
-print(sf.Logger)
+print(sf.CSVEmitter)
 print(sf.PostgresEmitter)
 print(sf.KafkaEmitter)
 

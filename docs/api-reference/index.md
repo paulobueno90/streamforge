@@ -46,7 +46,6 @@ import streamforge as sf
 | `KrakenRunner` | `streamforge` | Kraken streaming |
 | `OKXRunner` | `streamforge` | OKX streaming |
 | `DataInput` | `streamforge` | Stream configuration |
-| `Logger` | `streamforge` | Console output |
 | `CSVEmitter` | `streamforge.base.emitters.csv` | CSV file output |
 | `PostgresEmitter` | `streamforge` | PostgreSQL output |
 | `KafkaEmitter` | `streamforge` | Kafka streaming |

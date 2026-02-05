@@ -39,9 +39,6 @@ async def main():
     # Create Binance runner
     runner = sf.BinanceRunner(stream_input=stream)
     
-    # Add logger to see output
-    
-    
     # Start streaming!
     await runner.run()
 
@@ -111,13 +108,8 @@ Each exchange has its own runner:
 
 ### 3. Emitter - Output the Data
 
-```python
-
-```
-
 **Emitters** determine where data goes:
 
-- `Logger` - Print to console (debugging)
 - `CSVEmitter` - Save to CSV file
 - `PostgresEmitter` - Save to database
 - `KafkaEmitter` - Stream to Kafka
@@ -209,7 +201,6 @@ async def main():
     runner = sf.BinanceRunner(stream_input=stream)
     
     # Register multiple emitters
-    
     runner.register_emitter(sf.CSVEmitter(
         source="Binance",
         symbol="BTCUSDT",
@@ -217,7 +208,7 @@ async def main():
         file_path="btc_data.csv"
     ))
     
-    # Data goes to BOTH logger AND CSV!
+    # Data goes to CSV!
     await runner.run()
 
 if __name__ == "__main__":
@@ -304,15 +295,7 @@ StreamForge supports multiple exchanges with the same API:
 
 ## Common Patterns
 
-### Pattern 1: Debug with Logger
-
-Use `Logger` to see what data looks like:
-
-```python
-
-```
-
-### Pattern 2: Save Everything to CSV
+### Pattern 1: Save Everything to CSV
 
 Simple data collection:
 
@@ -326,13 +309,13 @@ csv = sf.CSVEmitter(
 runner.register_emitter(csv)
 ```
 
-### Pattern 3: Logger + CSV
+### Pattern 2: Multiple Emitters
 
-Debug while saving:
+Send data to multiple destinations:
 
 ```python
-
 runner.register_emitter(csv_emitter)
+runner.register_emitter(postgres_emitter)
 ```
 
 ---
@@ -349,7 +332,6 @@ import asyncio
 
 async def main():
     runner = sf.BinanceRunner(stream_input=stream)
-    
     
     # Run for 60 seconds
     try:
@@ -445,7 +427,6 @@ async def main():
     runner = sf.BinanceRunner(stream_input=stream)
     
     # Add emitters
-    
     runner.register_emitter(sf.CSVEmitter(
         source="Binance",
         symbol="BTCUSDT",

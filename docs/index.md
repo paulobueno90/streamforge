@@ -52,9 +52,8 @@ async def main():
     # Configure what to stream
     stream = sf.DataInput(type="kline", symbols=["BTCUSDT"], timeframe="1m")
     
-    # Create runner and add logger
+    # Create runner
     runner = sf.BinanceRunner(stream_input=stream)
-    
     
     # Start streaming!
     await runner.run()

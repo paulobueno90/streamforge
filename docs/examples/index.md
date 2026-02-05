@@ -216,7 +216,7 @@ async def main():
     runner = sf.BinanceRunner(stream_input=stream)
     
     # 3. Add emitter(s)
-    
+    runner.register_emitter(sf.CSVEmitter(...))
     
     # 4. Run!
     await runner.run()
@@ -229,14 +229,6 @@ if __name__ == "__main__":
 
 ## Tips & Tricks
 
-### Start with Logger
-
-Always test with `Logger` first:
-
-```python
-
-```
-
 ### Test with Short Periods
 
 Use timeouts for testing:
@@ -246,7 +238,6 @@ import asyncio
 
 async def main():
     runner = sf.BinanceRunner(stream_input=stream)
-    
     
     # Run for 30 seconds only
     try:

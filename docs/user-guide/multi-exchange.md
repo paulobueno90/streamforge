@@ -408,46 +408,7 @@ async def multi_everything():
 asyncio.run(multi_everything())
 ```
 
-### Example 2: Logger Per Exchange
-
-Separate loggers for each exchange:
-
-```python
-import asyncio
-import streamforge as sf
-from streamforge.merge_stream import merge_streams
-
-async def separate_loggers():
-    """Use different emitters per exchange"""
-    
-    # Binance with its own logger
-    binance = sf.BinanceRunner(
-        stream_input=sf.DataInput(
-            type="kline",
-            symbols=["BTCUSDT"],
-            timeframe="1m"
-        )
-    )
-
-    
-    # OKX with its own logger
-    okx = sf.OKXRunner(
-        stream_input=sf.DataInput(
-            type="candle",
-            symbols=["BTC-USDT"],
-            timeframe="1m"
-        )
-    )
-
-    
-    # Merge streams (emitters already attached)
-    async for data in merge_streams(binance, okx):
-        pass  # Data already logged by individual emitters
-
-asyncio.run(separate_loggers())
-```
-
-### Example 3: CSV Per Exchange
+### Example 2: CSV Per Exchange
 
 Separate CSV files per exchange:
 

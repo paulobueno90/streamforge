@@ -23,9 +23,6 @@ async def main():
     # Create runner
     runner = sf.BinanceRunner(stream_input=stream)
     
-    # Add logger
-    
-    
     # Start streaming!
     await runner.run()
 
@@ -71,7 +68,6 @@ async def main():
     
     runner.register_emitter(csv_emitter)
     
-    
     await runner.run()
 
 if __name__ == "__main__":
@@ -96,7 +92,6 @@ async def main():
     )
     
     runner = sf.BinanceRunner(stream_input=stream)
-    
     
     await runner.run()
 
@@ -123,7 +118,6 @@ async def timeframe_example(timeframe: str):
     )
     
     runner = sf.BinanceRunner(stream_input=stream)
-    
     
     await runner.run()
 
@@ -218,7 +212,6 @@ async def main():
     runner = sf.BinanceRunner(stream_input=stream)
     
     # Add multiple emitters - data goes to ALL
-    
     runner.register_emitter(sf.CSVEmitter(
         source="Binance",
         symbol="BTCUSDT",
@@ -226,7 +219,7 @@ async def main():
         file_path="backup.csv"
     ))
     
-    # Data flows to BOTH logger AND CSV!
+    # Data flows to CSV!
     await runner.run()
 
 if __name__ == "__main__":
@@ -251,7 +244,6 @@ async def main():
     )
     
     runner = sf.BinanceRunner(stream_input=stream)
-    
     
     # Run for 60 seconds
     try:

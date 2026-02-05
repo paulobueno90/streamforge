@@ -145,14 +145,6 @@ runner.register_emitter(emitter)
 
 ### Built-in Emitters
 
-#### Logger
-
-Print to console (debugging):
-
-```python
-runner.register_emitter(logger)
-```
-
 #### CSV
 
 Save to CSV file:
@@ -200,7 +192,6 @@ Data flows to **all** registered emitters:
 
 ```python
 # Register 3 emitters
-runner.register_emitter(logger)
 runner.register_emitter(csv)
 runner.register_emitter(postgres)
 runner.register_emitter(kafka)

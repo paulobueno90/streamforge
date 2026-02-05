@@ -29,7 +29,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - CSV file output
   - PostgreSQL database integration
   - Kafka streaming support
-  - Logger output
 - Data processing features:
   - OHLC/Kline data normalization
   - Timeframe aggregation
