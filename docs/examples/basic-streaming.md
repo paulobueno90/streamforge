@@ -30,13 +30,13 @@ if __name__ == "__main__":
     asyncio.run(main())
 ```
 
-**Output:**
+**Output:** (Note: Logging must be enabled to see output. By default, StreamForge uses silent logging. Enable with `sf.config.set_console_only()`)
+
 ```
-2025-10-14 16:21:32 - INFO - Aggregation Deactivated
-2025-10-14 16:21:33 - INFO - Binance    | Subscribed Successful to params: {'method': 'SUBSCRIBE', 'params': ['btcusdt@kline_1m'], 'id': 999} | Websocket Input: DataInput(type='kline', symbols=['BTCUSDT'], timeframe='1m', aggregate_list=[]).
-2025-10-14 16:21:33 - INFO - Binance    | Websocket Connection established successfully!
-2025-10-14 16:22:00 - INFO - Binance    | Data Received: source='binance' symbol='BTCUSDT' timeframe='1m' open_ts=1760469660 end_ts=1760469719 open=113329.98 high=113411.45 low=113329.98 close=113383.03 volume=11.95122 quote_volume=1355147.9103971 vwap=None n_trades=5228 is_closed=True
-2025-10-14 16:22:00 - INFO - Logger-Binance | Received Data | source='binance' symbol='BTCUSDT' timeframe='1m' open_ts=1760469660 end_ts=1760469719 open=113329.98 high=113411.45 low=113329.98 close=113383.03 volume=11.95122 quote_volume=1355147.9103971 vwap=None n_trades=5228 is_closed=True
+2025-10-14 16:21:32 - streamforge - INFO - Aggregation Deactivated
+2025-10-14 16:21:33 - streamforge - INFO - Binance    | Subscribed Successful to params: {'method': 'SUBSCRIBE', 'params': ['btcusdt@kline_1m'], 'id': 999} | Websocket Input: DataInput(type='kline', symbols=['BTCUSDT'], timeframe='1m', aggregate_list=[]).
+2025-10-14 16:21:33 - streamforge - INFO - Binance    | Websocket Connection established successfully!
+2025-10-14 16:22:00 - streamforge - INFO - Binance    | Data Received: source='binance' symbol='BTCUSDT' timeframe='1m' open_ts=1760469660 end_ts=1760469719 open=113329.98 high=113411.45 low=113329.98 close=113383.03 volume=11.95122 quote_volume=1355147.9103971 vwap=None n_trades=5228 is_closed=True
 ```
 
 ---
