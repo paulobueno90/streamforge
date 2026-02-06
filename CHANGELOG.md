@@ -23,6 +23,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix on duplicated log
 - Small changes in examples
 
+[0.1.2]: https://github.com/paulobueno90/streamforge/releases/tag/v0.1.2
+
 ## [0.1.1] - 2026-01-20
 
 ### Fixed
