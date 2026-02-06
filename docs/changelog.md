@@ -14,8 +14,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Enhanced error handling and retry mechanisms
 - Comprehensive test suite
 - Performance optimizations
+- Scheduling for API and Websockets
+- Calculation Engine Module
 
 ---
+
+## [0.1.2] - 2026-02-04
+- Added Binance futures support (klines)
+- Small fixes for okx
+- Fix on duplicated log
+- Small changes in examples
+
+[0.1.2]: https://github.com/paulobueno90/streamforge/releases/tag/v0.1.2
+
+## [0.1.1] - 2026-01-20
+
+### Fixed
+- Backfilling for binance failing when a transformer was not set.
+- Added standard behavior, now it backfills correctly from CSV
+
+[0.1.1]: https://github.com/paulobueno90/streamforge/releases/tag/v0.1.1
 
 ## [0.1.0] - 2025-01-06
 

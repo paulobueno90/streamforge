@@ -12,6 +12,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Enhanced error handling and retry mechanisms
 - Comprehensive test suite
 - Performance optimizations
+- Scheduling for API and Websockets
+- Calculation Engine Module
+
+---
 
 ## [0.1.2] - 2026-02-04
 - Added Binance futures support (klines)
