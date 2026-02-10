@@ -109,6 +109,7 @@ class AggregateTF(BaseAggregateTF):
             "l": first_data.low,
             "c": first_data.close,
             "v": first_data.volume,
+            "q": first_data.quote_volume,
             "vwap": first_data.vwap if first_data.vwap else None,
             "n": first_data.n_trades if first_data.n_trades else 1,
         }
@@ -118,6 +119,7 @@ class AggregateTF(BaseAggregateTF):
             candle_base["h"] = max(candle_base["h"], data_point.high)
             candle_base["l"] = min(candle_base["l"], data_point.low)
             candle_base["v"] += data_point.volume
+            candle_base["q"] += data_point.quote_volume
             candle_base["c"] = data_point.close
 
             # Update VWAP (volume weighted average price)
