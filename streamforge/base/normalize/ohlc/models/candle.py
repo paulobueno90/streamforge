@@ -74,7 +74,7 @@ class Kline(BaseModel):
 
     # Volume Variables
     volume: float = Field(alias="v", validation_alias=AliasChoices("v", "volume", "base_volume"))
-    quote_volume: Optional[float] = Field(None, alias="q",validation_alias=AliasChoices("q", "quote_volume", "Quote asset volume"))
+    quote_volume: Optional[float] = Field(0, alias="q",validation_alias=AliasChoices("q", "quote_volume", "Quote asset volume"))
     vwap: Optional[float] = Field(None, alias="vwap", validation_alias=AliasChoices("vwap", "volume_weighted_avg_price"))
     n_trades: Optional[int] = Field(None, alias="n", validation_alias=AliasChoices("n", "count", "trades"))
     is_closed: Optional[bool] = Field(None, alias="is_closed", validation_alias=AliasChoices("is_closed", "x"))
