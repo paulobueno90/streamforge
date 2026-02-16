@@ -1310,6 +1310,45 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#013-2026-02-xx" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0.1.3 - 2026-02-XX
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0.1.3 - 2026-02-XX">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#added" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Added
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#technical-details" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Technical Details
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#012-2026-02-04" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1361,7 +1400,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#added" class="md-nav__link">
+  <a href="#added_1" class="md-nav__link">
     <span class="md-ellipsis">
       
         Added
@@ -1461,6 +1500,45 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#013-2026-02-xx" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0.1.3 - 2026-02-XX
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0.1.3 - 2026-02-XX">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#added" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Added
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#technical-details" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Technical Details
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#012-2026-02-04" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1512,7 +1590,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#added" class="md-nav__link">
+  <a href="#added_1" class="md-nav__link">
     <span class="md-ellipsis">
       
         Added
@@ -1574,7 +1652,7 @@
 <p>The format is based on <a href="https://keepachangelog.com/en/1.0.0/">Keep a Changelog</a>,
 and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semantic Versioning</a>.</p>
 <hr />
-<h2 id="unreleased"><a href="https://github.com/paulobueno90/streamforge/compare/v0.1.0...HEAD">Unreleased</a><a class="headerlink" href="#unreleased" title="Permanent link">&para;</a></h2>
+<h2 id="unreleased"><a href="https://github.com/paulobueno90/streamforge/compare/v0.1.3...HEAD">Unreleased</a><a class="headerlink" href="#unreleased" title="Permanent link">&para;</a></h2>
 <h3 id="planned">Planned<a class="headerlink" href="#planned" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Additional exchange integrations</li>
@@ -1585,21 +1663,38 @@ and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semant
 <li>Calculation Engine Module</li>
 </ul>
 <hr />
-<h2 id="012-2026-02-04"><a href="https://github.com/paulobueno90/streamforge/releases/tag/v0.1.2">0.1.2</a> - 2026-02-04<a class="headerlink" href="#012-2026-02-04" title="Permanent link">&para;</a></h2>
+<h2 id="013-2026-02-xx"><a href="https://github.com/paulobueno90/streamforge/compare/v0.1.2...v0.1.3">0.1.3</a> - 2026-02-XX<a class="headerlink" href="#013-2026-02-xx" title="Permanent link">&para;</a></h2>
+<h3 id="added">Added<a class="headerlink" href="#added" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Bybit exchange integration with full support for:</li>
+<li>Real-time WebSocket streaming (kline/OHLC data)</li>
+<li>Historical backfilling via REST API</li>
+<li>Support for multiple market types: Spot, Linear (USDT/USDC perpetuals), and Inverse futures</li>
+<li>BybitBackfilling class for historical data retrieval</li>
+<li>Unified rate limiting for all Bybit market types (shared endpoint)</li>
+</ul>
+<h3 id="technical-details">Technical Details<a class="headerlink" href="#technical-details" title="Permanent link">&para;</a></h3>
+<ul>
+<li>API-only backfilling approach (no CSV downloads available)</li>
+<li>Maximum 1000 candles per API request</li>
+<li>Rate limit: 500 requests per 5 seconds (conservative limit)</li>
+<li>Support for all Bybit timeframes: 1m, 3m, 5m, 15m, 30m, 1h, 2h, 4h, 1d, 1w, 1M</li>
+</ul>
+<h2 id="012-2026-02-04"><a href="https://github.com/paulobueno90/streamforge/compare/v0.1.1...v0.1.2">0.1.2</a> - 2026-02-04<a class="headerlink" href="#012-2026-02-04" title="Permanent link">&para;</a></h2>
 <ul>
 <li>Added Binance futures support (klines)</li>
 <li>Small fixes for okx</li>
 <li>Fix on duplicated log</li>
 <li>Small changes in examples</li>
 </ul>
-<h2 id="011-2026-01-20"><a href="https://github.com/paulobueno90/streamforge/releases/tag/v0.1.1">0.1.1</a> - 2026-01-20<a class="headerlink" href="#011-2026-01-20" title="Permanent link">&para;</a></h2>
+<h2 id="011-2026-01-20"><a href="https://github.com/paulobueno90/streamforge/compare/v0.1.0...v0.1.1">0.1.1</a> - 2026-01-20<a class="headerlink" href="#011-2026-01-20" title="Permanent link">&para;</a></h2>
 <h3 id="fixed">Fixed<a class="headerlink" href="#fixed" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Backfilling for binance failing when a transformer was not set.</li>
 <li>Added standard behavior, now it backfills correctly from CSV</li>
 </ul>
 <h2 id="010-2025-01-06"><a href="https://github.com/paulobueno90/streamforge/releases/tag/v0.1.0">0.1.0</a> - 2025-01-06<a class="headerlink" href="#010-2025-01-06" title="Permanent link">&para;</a></h2>
-<h3 id="added">Added<a class="headerlink" href="#added" title="Permanent link">&para;</a></h3>
+<h3 id="added_1">Added<a class="headerlink" href="#added_1" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Initial release of StreamForge</li>
 <li>Real-time WebSocket data ingestion from multiple exchanges:</li>
@@ -1634,6 +1729,9 @@ and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semant
 <hr />
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <ul>
+<li></li>
+<li></li>
+<li></li>
 <li></li>
 <li></li>
 </ul>
