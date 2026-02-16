@@ -13,7 +13,7 @@ StreamForge is a unified, async-first framework for ingesting real-time market d
 ## Features
 
 - **Real-time WebSocket Streaming** - Live market data from multiple exchanges
-- **Multi-Exchange Support** - Binance, Kraken, OKX with unified API
+- **Multi-Exchange Support** - Binance, Kraken, OKX, Bybit with unified API
 - **Multiple Output Formats** - CSV, PostgreSQL, Kafka, or custom emitters
 - **Timeframe Aggregation** - Automatic aggregation to higher timeframes
 - **Historical Backfilling** - Load months of historical data effortlessly
@@ -75,6 +75,7 @@ asyncio.run(main())
 | **Binance** | `BTCUSDT` | `kline` | ✓ |
 | **Kraken** | `BTC/USD` | `ohlc` | Limited |
 | **OKX** | `BTC-USDT` | `candle` | ✓ |
+| **Bybit** | `BTCUSDT` | `kline` | ✓ |
 
 ---
 
@@ -256,6 +257,7 @@ Connect to exchanges and manage data flow:
 runner = sf.BinanceRunner(stream_input=stream)  # Binance
 runner = sf.KrakenRunner(stream_input=stream)   # Kraken  
 runner = sf.OKXRunner(stream_input=stream)      # OKX
+runner = sf.BybitRunner(stream_input=stream)    # Bybit
 ```
 
 ### Emitters

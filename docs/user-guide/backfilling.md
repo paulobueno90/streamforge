@@ -64,6 +64,44 @@ backfiller = sf.OkxBackfilling(
 backfiller.run()
 ```
 
+### Bybit Backfilling
+
+```python
+# Spot market (default)
+backfiller = sf.BybitBackfilling(
+    symbol="BTCUSDT",
+    timeframe="1m",
+    from_date="2024-10-01",
+    to_date="2024-10-31"
+)
+
+backfiller.run()
+```
+
+**With market type:**
+
+```python
+# Linear futures (USDT/USDC perpetuals)
+backfiller = sf.BybitBackfilling(
+    symbol="BTCUSDT",
+    timeframe="1m",
+    from_date="2024-10-01",
+    to_date="2024-10-31",
+    market_type="LINEAR"
+)
+
+# Inverse futures (coin-margined)
+backfiller = sf.BybitBackfilling(
+    symbol="BTCUSD",  # Note: USD for inverse
+    timeframe="1m",
+    from_date="2024-10-01",
+    to_date="2024-10-31",
+    market_type="INVERSE"
+)
+```
+
+**Output:** `Bybit-BTCUSDT-spot-1m-2024-10-01_2024-10-31.csv` (or `linear`/`inverse` based on market type)
+
 ---
 
 ## Parameters
@@ -626,7 +664,8 @@ backfiller.run()
 # Backfill same symbol from multiple exchanges
 symbols_by_exchange = {
     "Binance": "BTCUSDT",
-    "OKX": "BTC-USDT"
+    "OKX": "BTC-USDT",
+    "Bybit": "BTCUSDT"
 }
 
 # Binance
@@ -648,6 +687,17 @@ okx_backfiller = sf.OkxBackfilling(
 )
 okx_backfiller.register_emitter(postgres)
 okx_backfiller.run()
+
+# Bybit
+bybit_backfiller = sf.BybitBackfilling(
+    symbol="BTCUSDT",
+    timeframe="1h",
+    from_date="2024-01-01",
+    to_date="2024-12-31",
+    market_type="SPOT"
+)
+bybit_backfiller.register_emitter(postgres)
+bybit_backfiller.run()
 ```
 
 ---

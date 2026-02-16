@@ -113,6 +113,19 @@ asyncio.run(main())
     
     [Guide](exchanges/okx.md)
 
+-   :material-trending-up: **Bybit**
+
+    ---
+
+    Leading derivatives exchange
+    
+    - Kline/OHLC data
+    - Real-time WebSocket
+    - Historical backfilling
+    - Spot, Linear, Inverse markets
+    
+    [Guide](exchanges/bybit.md)
+
 </div>
 
 ---
