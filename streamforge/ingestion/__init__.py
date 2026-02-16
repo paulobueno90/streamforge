@@ -20,5 +20,6 @@ __all__ = [
     "binance",
     "kraken",
     "okx",
+    "bybit",
     "polygon",
 ]

@@ -4,7 +4,7 @@ StreamForge - Real-time cryptocurrency and financial data ingestion system.
 StreamForge is a unified, async-first framework for ingesting real-time market data
 from cryptocurrency exchanges. It provides:
 
-- **Multi-exchange support**: Binance, Kraken, OKX, and more
+- **Multi-exchange support**: Binance, Kraken, OKX, Bybit, and more
 - **Real-time streaming**: WebSocket-based live data feeds
 - **Data normalization**: Standardized data models across exchanges
 - **Multiple outputs**: CSV, PostgreSQL, Kafka, and custom emitters
@@ -26,7 +26,7 @@ Quick Start:
 
 Modules:
     base: Core framework components (Runner, WebsocketHandler, emitters, processors)
-    ingestion: Exchange-specific implementations (binance, kraken, okx)
+    ingestion: Exchange-specific implementations (binance, kraken, okx, bybit)
 """
 
 __version__ = "0.1.2"
@@ -37,6 +37,7 @@ from . import base
 from .ingestion.binance.runner import BinanceRunner
 from .ingestion.kraken.runner import KrakenRunner
 from .ingestion.okx.runner import OKXRunner
+from .ingestion.bybit.runner import BybitRunner
 
 # Convenience imports
 from .base.stream_input import DataInput
@@ -48,6 +49,7 @@ from .base.normalize.ohlc.models.candle import Kline
 
 from .ingestion.binance.backfilling import BinanceBackfilling
 from .ingestion.okx.backfilling import OkxBackfilling
+from .ingestion.bybit.backfilling import BybitBackfilling
 
 # Merge stream imports
 from .merge_stream import merge_streams
@@ -69,6 +71,7 @@ __all__ = [
     "BinanceRunner",
     "KrakenRunner",
     "OKXRunner",
+    "BybitRunner",
     
     # Emitters
     "DataEmitter",
@@ -82,6 +85,7 @@ __all__ = [
     # Backfilling
     "BinanceBackfilling",
     "OkxBackfilling",
+    "BybitBackfilling",
     
     # Logger utilities
     "DefaultLogger",
