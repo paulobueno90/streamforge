@@ -63,8 +63,8 @@ class Kline(BaseModel):
     timeframe: str = Field(alias="i", validation_alias=AliasChoices("i", "timeframe", "tf"))
 
     # Time related Variables
-    open_ts: int = Field(alias="t", validation_alias=AliasChoices("t","interval_begin","ts"))
-    end_ts: int = Field(alias="T", validation_alias=AliasChoices("T","timestamp"))
+    open_ts: int = Field(alias="t", validation_alias=AliasChoices("t","interval_begin","ts", "start"))
+    end_ts: int = Field(alias="T", validation_alias=AliasChoices("T","timestamp", "end"))
 
     # Price Variables
     open: float = Field(alias="o", validation_alias=AliasChoices("o", "open", "open_price"))
@@ -74,10 +74,10 @@ class Kline(BaseModel):
 
     # Volume Variables
     volume: float = Field(alias="v", validation_alias=AliasChoices("v", "volume", "base_volume"))
-    quote_volume: Optional[float] = Field(0, alias="q",validation_alias=AliasChoices("q", "quote_volume", "Quote asset volume"))
+    quote_volume: Optional[float] = Field(0, alias="q",validation_alias=AliasChoices("q", "quote_volume", "Quote asset volume", "turnover"))
     vwap: Optional[float] = Field(None, alias="vwap", validation_alias=AliasChoices("vwap", "volume_weighted_avg_price"))
     n_trades: Optional[int] = Field(None, alias="n", validation_alias=AliasChoices("n", "count", "trades"))
-    is_closed: Optional[bool] = Field(None, alias="is_closed", validation_alias=AliasChoices("is_closed", "x"))
+    is_closed: Optional[bool] = Field(None, alias="is_closed", validation_alias=AliasChoices("is_closed", "x", "confirm"))
 
     def map_key(self):
         return f'{self.symbol.upper()}-{self.timeframe}'
