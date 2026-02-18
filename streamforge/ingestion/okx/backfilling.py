@@ -148,6 +148,9 @@ class OkxBackfilling:
             row = self.transform(kline_data)
             buffer.append(row)
             if len(buffer) >= batch_size:
+                if self.transformer is None:
+                    buffer.sort(key=lambda data: data['open_ts'])
+
                 yield buffer
                 buffer = []
 
@@ -164,9 +167,7 @@ class OkxBackfilling:
 
         if self._emitter_holder.empty:
             csv_emitter = CSVEmitter(
-                source="Okx",
-                symbol=self.symbol,
-                timeframe=self.timeframe,
+                file_path=self.file_path,
                 transformer_function=self.transformer
             )
 
