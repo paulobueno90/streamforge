@@ -17,7 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [0.1.3] - 2026-02-XX
+## [0.1.3] - 2026-02-18
 
 ### Added
 - Bybit exchange integration with full support for:
@@ -32,6 +32,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Maximum 1000 candles per API request
 - Rate limit: 500 requests per 5 seconds (conservative limit)
 - Support for all Bybit timeframes: 1m, 3m, 5m, 15m, 30m, 1h, 2h, 4h, 1d, 1w, 1M
+
+### Fixes
+- Okx backfilling fix
 
 [0.1.3]: https://github.com/paulobueno90/streamforge/releases/tag/v0.1.3
 
